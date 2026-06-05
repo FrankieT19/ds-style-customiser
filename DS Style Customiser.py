@@ -150,7 +150,7 @@ TEXT_SECTIONS = [
         ("DSTEXT_CONTROL_A", "A: Accept / Enter"),
         ("DSTEXT_CONTROL_B", "B: Cancel / Back"),
         ("DSTEXT_CONTROL_DPAD", "D-pad / L / R: Navigation"),
-        ("DSTEXT_CONTROL_START", "Start (SD): View recents"),
+        ("DSTEXT_CONTROL_START", "Start (SD): Recents/Faves"),
         ("DSTEXT_CONTROL_SELECT", "Select (SD/NOR): Cycle view mode"),
         ("DSTEXT_CONTROL_HOLD_START", "Hold Start (SD): Delete file"),
         ("DSTEXT_CONTROL_DOUBLE_SELECT", "Double tap Select (SD): Set favourite"),
@@ -284,7 +284,7 @@ TEXT_TRANSLATIONS = {
         "DSTEXT_CONTROL_A": "A: Aceptar / Entrar",
         "DSTEXT_CONTROL_B": "B: Cancelar / Atras",
         "DSTEXT_CONTROL_DPAD": "D-pad / L / R: Navegar",
-        "DSTEXT_CONTROL_START": "Start (SD): Ver recientes",
+        "DSTEXT_CONTROL_START": "Start (SD): Recientes/Fav.",
         "DSTEXT_CONTROL_SELECT": "Select (SD/NOR): Cambiar vista",
         "DSTEXT_CONTROL_HOLD_START": "Mantener Start (SD): Borrar archivo",
         "DSTEXT_CONTROL_DOUBLE_SELECT": "Doble toque Select (SD): Favorito",
@@ -395,7 +395,7 @@ TEXT_TRANSLATIONS = {
         "DSTEXT_CONTROL_A": "A: Valider / Entrer",
         "DSTEXT_CONTROL_B": "B: Annuler / Retour",
         "DSTEXT_CONTROL_DPAD": "D-pad / L / R: Navigation",
-        "DSTEXT_CONTROL_START": "Start (SD): Voir recents",
+        "DSTEXT_CONTROL_START": "Start (SD): Recents/Fav.",
         "DSTEXT_CONTROL_SELECT": "Select (SD/NOR): Changer vue",
         "DSTEXT_CONTROL_HOLD_START": "Maintenir Start (SD): Supprimer",
         "DSTEXT_CONTROL_DOUBLE_SELECT": "Double tap Select (SD): Favori",
@@ -509,7 +509,7 @@ TEXT_TRANSLATIONS.update({
         "DSTEXT_CONTROL_A": "A: Aceitar / Entrar",
         "DSTEXT_CONTROL_B": "B: Cancelar / Voltar",
         "DSTEXT_CONTROL_DPAD": "D-pad / L / R: Navegar",
-        "DSTEXT_CONTROL_START": "Start (SD): Ver recentes",
+        "DSTEXT_CONTROL_START": "Start (SD): Recentes/Fav.",
         "DSTEXT_CONTROL_SELECT": "Select (SD/NOR): Mudar vista",
         "DSTEXT_CONTROL_HOLD_START": "Segurar Start (SD): Apagar ficheiro",
         "DSTEXT_CONTROL_DOUBLE_SELECT": "Duplo toque Select (SD): Favorito",
@@ -620,7 +620,7 @@ TEXT_TRANSLATIONS.update({
         "DSTEXT_CONTROL_A": "A: Bestätigen / Enter",
         "DSTEXT_CONTROL_B": "B: Abbrechen / Zurück",
         "DSTEXT_CONTROL_DPAD": "D-pad / L / R: Navigation",
-        "DSTEXT_CONTROL_START": "Start (SD): Letzte anzeigen",
+        "DSTEXT_CONTROL_START": "Start (SD): Letzte/Fav.",
         "DSTEXT_CONTROL_SELECT": "Select (SD/NOR): Ansicht wechseln",
         "DSTEXT_CONTROL_HOLD_START": "Start halten (SD): Datei loeschen",
         "DSTEXT_CONTROL_DOUBLE_SELECT": "Select doppelt (SD): Favorit",
@@ -731,7 +731,7 @@ TEXT_TRANSLATIONS.update({
         "DSTEXT_CONTROL_A": "A: Kabul / Gir",
         "DSTEXT_CONTROL_B": "B: İptal / Geri",
         "DSTEXT_CONTROL_DPAD": "D-pad / L / R: Gezinme",
-        "DSTEXT_CONTROL_START": "Start (SD): Sonlari goster",
+        "DSTEXT_CONTROL_START": "Start (SD): Son/Fav.",
         "DSTEXT_CONTROL_SELECT": "Select (SD/NOR): Görünüm değiştir",
         "DSTEXT_CONTROL_HOLD_START": "Start basili (SD): Dosya sil",
         "DSTEXT_CONTROL_DOUBLE_SELECT": "Select cift tik (SD): Favori",
@@ -845,7 +845,7 @@ TEXT_TRANSLATIONS.update({
         "DSTEXT_CONTROL_A": "A: Accetta / Entra",
         "DSTEXT_CONTROL_B": "B: Annulla / Indietro",
         "DSTEXT_CONTROL_DPAD": "D-pad / L / R: Naviga",
-        "DSTEXT_CONTROL_START": "Start (SD): Vedi recenti",
+        "DSTEXT_CONTROL_START": "Start (SD): Recenti/Fav.",
         "DSTEXT_CONTROL_SELECT": "Select (SD/NOR): Cambia vista",
         "DSTEXT_CONTROL_HOLD_START": "Tieni Start (SD): Elimina file",
         "DSTEXT_CONTROL_DOUBLE_SELECT": "Doppio Select (SD): Preferito",
@@ -956,7 +956,7 @@ TEXT_TRANSLATIONS.update({
         "DSTEXT_CONTROL_A": "A: Accepteren / Enter",
         "DSTEXT_CONTROL_B": "B: Annuleren / Terug",
         "DSTEXT_CONTROL_DPAD": "D-pad / L / R: Navigeren",
-        "DSTEXT_CONTROL_START": "Start (SD): Recente tonen",
+        "DSTEXT_CONTROL_START": "Start (SD): Recent/Fav.",
         "DSTEXT_CONTROL_SELECT": "Select (SD/NOR): Weergave wisselen",
         "DSTEXT_CONTROL_HOLD_START": "Start houden (SD): Bestand wissen",
         "DSTEXT_CONTROL_DOUBLE_SELECT": "Dubbel Select (SD): Favoriet",
@@ -1551,7 +1551,7 @@ class CustomiserApp(tk.Tk):
         version_block = ttk.Frame(header, style="Header.TFrame")
         version_block.pack(side="right", anchor="ne")
         ttk.Label(version_block, text="DS Style Customiser v1.6", style="HeaderVersion.TLabel").pack(anchor="e")
-        ttk.Label(version_block, text="For DS Style v6.6", style="HeaderVersion.TLabel").pack(anchor="e", pady=(2, 0))
+        ttk.Label(version_block, text="For DS Style v6.7", style="HeaderVersion.TLabel").pack(anchor="e", pady=(2, 0))
 
         self.notebook = ttk.Notebook(self)
         self.notebook.pack(fill="both", expand=True, padx=20, pady=(0, 10))
@@ -3122,7 +3122,7 @@ class CustomiserApp(tk.Tk):
             "DSTEXT_CONTROL_A": "A: 确定 / 进入",
             "DSTEXT_CONTROL_B": "B: 取消 / 返回",
             "DSTEXT_CONTROL_DPAD": "方向键 / L / R: 导航",
-            "DSTEXT_CONTROL_START": "Start (SD): 查看最近",
+            "DSTEXT_CONTROL_START": "Start (SD): 最近/收藏",
             "DSTEXT_CONTROL_SELECT": "Select: 切换视图",
             "DSTEXT_CONTROL_HOLD_START": "按住Start: 删除文件",
             "DSTEXT_CONTROL_DOUBLE_SELECT": "双击Select: 设为收藏",
