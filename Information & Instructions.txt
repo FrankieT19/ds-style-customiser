@@ -1,0 +1,62 @@
+[INTRO]
+
+Thank you for downloading DS Style Customiser v1.6.
+
+For DS Style v6.8.
+
+DS Style Customiser lets you create a personalised DS Style kernel while keeping the original source untouched.
+
+#####################################################################################
+
+[REQUIREMENTS]
+
+DS Style Customiser needs devkitPro installed at:
+C:\devkitPro
+
+Download devkitPro from:
+https://github.com/devkitPro/installer/releases
+
+GIMP is recommended for editing the included templates.
+
+Download GIMP from:
+https://www.gimp.org/downloads/
+
+#####################################################################################
+
+[BASIC INSTRUCTIONS]
+
+1. Open the provided templates in GIMP.
+
+2. Place your background image on the layer below the UI elements.
+
+3. Edit the UI elements if you want to, but keep them in the same positions.
+
+4. Export your finished images as PNG, JPG, or BMP files.
+
+5. Open DS Style Customiser, create a project, and load your images.
+
+6. When you are finished, use the Build page to create your kernel file.
+
+7. Put the new kernel file on the root of your SD card and hold R as the cartridge boots.
+
+#####################################################################################
+
+[PROJECTS]
+
+Your edits are saved into project folders so you can return to them later.
+
+The customiser keeps the original DS Style source folders untouched.
+
+Choose the correct cartridge model when creating a project. The Omega Definitive Edition uses ezkernelnew.bin, while the original Omega uses ezkernel.bin.
+
+#####################################################################################
+
+[NOTES]
+
+The Custom columns can add new options to the Theme and Colour settings.
+
+Sound files need to be WAV format. Trim silent sections from the beginning and end for best results.
+
+Use the recommended image sizes shown inside the customiser for best results.
+
+The included templates can be found in the Templates folder.
