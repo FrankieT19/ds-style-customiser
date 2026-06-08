@@ -1,0 +1,26 @@
+DS STYLE CUSTOMISER
+
+For DS Style v6.8.
+
+Open DS Style User Guide.pdf for complete setup, artwork, sound, project and building instructions.
+
+
+BEFORE YOU BEGIN
+
+Install devkitPro in:
+C:\devkitPro
+
+Download devkitPro:
+https://github.com/devkitPro/installer/releases
+
+Keep DS Style Customiser.exe, Templates and both supplied DS Style source folders together.
+
+Run DS Style Customiser.exe and create a project for your cartridge model.
+
+
+ARTWORK
+
+GIMP is recommended for editing the supplied XCF templates:
+https://www.gimp.org/downloads/
+
+Finished kernel files are created from the Build page.
