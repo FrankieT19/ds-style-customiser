@@ -1,6 +1,6 @@
 DS STYLE CUSTOMISER
 
-For DS Style v6.8.
+For DS Style v6.9.
 
 Open DS Style User Guide.pdf for complete setup, artwork, sound, project and building instructions.
 
