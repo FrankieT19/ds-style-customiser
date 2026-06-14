@@ -4,6 +4,10 @@ DS Style Customiser is a Windows desktop application for creating personalised b
 
 It provides visual tools for editing themes, colours, images, sounds, interface text, and supported launcher layouts without directly modifying the original kernel source.
 
+## DS Style Homepage
+
+Visit the [DS Style homepage](https://frankiet19.github.io/omega-de-ds-style-kernel/project/) for an overview, kernel downloads, tools and example themes.
+
 ## Features
 
 - Project-based workflow that preserves the original source templates
@@ -16,7 +20,7 @@ It provides visual tools for editing themes, colours, images, sounds, interface 
 ## Download and History
 
 - [Download the latest DS Style Customiser release](https://github.com/FrankieT19/ds-style-customiser/releases/latest)
-- [Read the complete Customiser changelog](CHANGELOG.md)
+- [Changelog](CHANGELOG.md)
 
 ## Requirements
 
