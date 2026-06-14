@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.7
+
+- Improved window sizing on high-DPI and smaller desktops.
+
 ## v1.6
 
 - Added support for DS Style v6.6.

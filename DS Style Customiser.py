@@ -1396,8 +1396,12 @@ class CustomiserApp(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title(APP_NAME)
-        self.geometry("1180x700")
-        self.minsize(1000, 620)
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        initial_width = min(1180, max(920, screen_width - 80))
+        initial_height = min(700, max(580, screen_height - 80))
+        self.geometry(f"{initial_width}x{initial_height}")
+        self.minsize(min(1000, initial_width), min(580, initial_height))
 
         self.base_dir = app_dir()
         self.projects_root = self.base_dir / PROJECTS_FOLDER_NAME
@@ -1550,7 +1554,7 @@ class CustomiserApp(tk.Tk):
         ).pack(anchor="w", pady=(2, 0))
         version_block = ttk.Frame(header, style="Header.TFrame")
         version_block.pack(side="right", anchor="ne")
-        ttk.Label(version_block, text="DS Style Customiser v1.6", style="HeaderVersion.TLabel").pack(anchor="e")
+        ttk.Label(version_block, text="DS Style Customiser v1.7", style="HeaderVersion.TLabel").pack(anchor="e")
         ttk.Label(version_block, text="For DS Style v6.9", style="HeaderVersion.TLabel").pack(anchor="e", pady=(2, 0))
 
         self.notebook = ttk.Notebook(self)
