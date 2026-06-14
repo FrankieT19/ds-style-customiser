@@ -13,6 +13,11 @@ It provides visual tools for editing themes, colours, images, sounds, interface 
 - Custom language text and preset translations
 - Kernel building through devkitPro
 
+## Download and History
+
+- [Download the latest DS Style Customiser release](https://github.com/FrankieT19/ds-style-customiser/releases/latest)
+- [Read the complete Customiser changelog](CHANGELOG.md)
+
 ## Requirements
 
 - Windows
