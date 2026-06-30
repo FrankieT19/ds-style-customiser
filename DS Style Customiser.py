@@ -98,6 +98,8 @@ TEXT_SECTIONS = [
         ("DSTEXT_SETTINGS_LANGUAGE", "Language"),
         ("DSTEXT_SETTINGS_THEME", "Theme"),
         ("DSTEXT_SETTINGS_COLOUR", "Colour"),
+        ("DSTEXT_SETTINGS_LOAD_STYLE", "Load style"),
+        ("DSTEXT_SETTINGS_HIDE_SYSTEM", "Hide system"),
         ("DSTEXT_SETTINGS_BOOT_ENGINE", "Boot engine"),
         ("DSTEXT_SETTINGS_AUTO_SAVE", "Auto save"),
         ("DSTEXT_SETTINGS_RESUME_LAST", "Resume last"),
@@ -1109,6 +1111,56 @@ TEXT_TRANSLATIONS.update({
         "DSTEXT_STATUS_NOR_FULL": "NOR on täynnä!       ",
     },
 })
+
+TEXT_SETTING_ADDITIONS = {
+    "English (UK)": {
+        "DSTEXT_SETTINGS_LOAD_STYLE": "Load style",
+        "DSTEXT_SETTINGS_HIDE_SYSTEM": "Hide system",
+    },
+    "English (US)": {
+        "DSTEXT_SETTINGS_LOAD_STYLE": "Load style",
+        "DSTEXT_SETTINGS_HIDE_SYSTEM": "Hide system",
+    },
+    "Spanish": {
+        "DSTEXT_SETTINGS_LOAD_STYLE": "Cargar estilo",
+        "DSTEXT_SETTINGS_HIDE_SYSTEM": "Ocultar sist.",
+    },
+    "French": {
+        "DSTEXT_SETTINGS_LOAD_STYLE": "Charger style",
+        "DSTEXT_SETTINGS_HIDE_SYSTEM": "Masquer syst.",
+    },
+    "Portuguese": {
+        "DSTEXT_SETTINGS_LOAD_STYLE": "Carg. estilo",
+        "DSTEXT_SETTINGS_HIDE_SYSTEM": "Ocultar sist.",
+    },
+    "German": {
+        "DSTEXT_SETTINGS_LOAD_STYLE": "Stil laden",
+        "DSTEXT_SETTINGS_HIDE_SYSTEM": "System ausbl.",
+    },
+    "Turkish": {
+        "DSTEXT_SETTINGS_LOAD_STYLE": "Stil yÃ¼kle",
+        "DSTEXT_SETTINGS_HIDE_SYSTEM": "Sistemi gizle",
+    },
+    "Italian": {
+        "DSTEXT_SETTINGS_LOAD_STYLE": "Carica stile",
+        "DSTEXT_SETTINGS_HIDE_SYSTEM": "Nascondi sist.",
+    },
+    "Dutch": {
+        "DSTEXT_SETTINGS_LOAD_STYLE": "Stijl laden",
+        "DSTEXT_SETTINGS_HIDE_SYSTEM": "Systeem weg",
+    },
+    "Swedish": {
+        "DSTEXT_SETTINGS_LOAD_STYLE": "Ladda stil",
+        "DSTEXT_SETTINGS_HIDE_SYSTEM": "DÃ¶lj system",
+    },
+    "Finnish": {
+        "DSTEXT_SETTINGS_LOAD_STYLE": "Lataa tyyli",
+        "DSTEXT_SETTINGS_HIDE_SYSTEM": "Piilota syst.",
+    },
+}
+
+for _language, _values in TEXT_SETTING_ADDITIONS.items():
+    TEXT_TRANSLATIONS.setdefault(_language, {}).update(_values)
 
 for _translation in TEXT_TRANSLATIONS.values():
     _translation.setdefault("DSTEXT_START_SETTINGS", _translation.get("DSTEXT_SETTINGS_TITLE", "Settings"))
@@ -3149,6 +3201,10 @@ class CustomiserApp(tk.Tk):
             "DSTEXT_NOR_MENU_SAVE_SAVE": "保存存档",
         }
         lines.append("    { " + self.c_string_literal("中文", "gbk") + ", 0xE2E2, {")
+        zh.update({
+            "DSTEXT_SETTINGS_LOAD_STYLE": "\u52a0\u8f7d\u6837\u5f0f",
+            "DSTEXT_SETTINGS_HIDE_SYSTEM": "\u9690\u85cf\u7cfb\u7edf",
+        })
         for key in keys:
             lines.append("        " + self.c_string_literal(zh.get(key, TEXT_DEFAULTS[key]), "gbk") + ",")
         lines.append("    } },")
