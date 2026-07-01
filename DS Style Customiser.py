@@ -1607,7 +1607,7 @@ class CustomiserApp(tk.Tk):
         version_block = ttk.Frame(header, style="Header.TFrame")
         version_block.pack(side="right", anchor="ne")
         ttk.Label(version_block, text="DS Style Customiser v1.7", style="HeaderVersion.TLabel").pack(anchor="e")
-        ttk.Label(version_block, text="For DS Style v6.9", style="HeaderVersion.TLabel").pack(anchor="e", pady=(2, 0))
+        ttk.Label(version_block, text="For DS Style v7.0", style="HeaderVersion.TLabel").pack(anchor="e", pady=(2, 0))
 
         self.notebook = ttk.Notebook(self)
         self.notebook.pack(fill="both", expand=True, padx=20, pady=(0, 10))
