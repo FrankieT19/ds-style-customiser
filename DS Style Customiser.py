@@ -88,12 +88,16 @@ TEXT_SECTIONS = [
         ("DSTEXT_RECENTLY_PLAYED", "Recently Played"),
         ("DSTEXT_LAST_PLAYED", "Last played"),
         ("DSTEXT_FAVOURITES", "Favourites"),
+        ("DSTEXT_EMPTY_FOLDER", "This folder is empty"),
+        ("DSTEXT_NO_FAVOURITES", "No favourites yet"),
     ]),
     ("Settings", [
         ("DSTEXT_SETTINGS_TITLE", "Settings"),
         ("DSTEXT_SETTINGS_TIME", "Time settings"),
+        ("DSTEXT_SETTINGS_CLOCK_FORMAT", "Clock format"),
         ("DSTEXT_SETTINGS_VIEW_MODE", "View mode"),
         ("DSTEXT_SETTINGS_THUMBNAILS", "Thumbnails"),
+        ("DSTEXT_SETTINGS_ART_BORDER", "Art border"),
         ("DSTEXT_SETTINGS_SOUNDS", "Sounds"),
         ("DSTEXT_SETTINGS_LANGUAGE", "Language"),
         ("DSTEXT_SETTINGS_THEME", "Theme"),
@@ -141,6 +145,12 @@ TEXT_SECTIONS = [
     ("Settings values", [
         ("DSTEXT_ON", "On"),
         ("DSTEXT_OFF", "Off"),
+        ("DSTEXT_CLOCK_12H", "12 hour"),
+        ("DSTEXT_CLOCK_24H", "24 hour"),
+        ("DSTEXT_BORDER_ACCENT", "Accent"),
+        ("DSTEXT_BORDER_BLACK", "Black"),
+        ("DSTEXT_BORDER_GREY", "Grey"),
+        ("DSTEXT_BORDER_WHITE", "White"),
         ("DSTEXT_VIEW_LIST", "List"),
         ("DSTEXT_VIEW_HORIZONTAL", "Horizontal"),
         ("DSTEXT_VIEW_VERTICAL", "Vertical"),
@@ -1243,6 +1253,32 @@ TEXT_SETTING_ADDITIONS = {'Dutch': {'DSTEXT_CATEGORY_GAMES': 'Games',
              'DSTEXT_SETTINGS_LIST_FOLDERS': 'Klasor liste',
              'DSTEXT_SETTINGS_LOAD_STYLE': 'Stil yukle'}}
 
+TEXT_SETTING_ADDITIONS.update({
+    "English (UK)": {"DSTEXT_EMPTY_FOLDER": "This folder is empty", "DSTEXT_NO_FAVOURITES": "No favourites yet", "DSTEXT_SETTINGS_CLOCK_FORMAT": "Clock format", "DSTEXT_CLOCK_12H": "12 hour", "DSTEXT_CLOCK_24H": "24 hour"},
+    "English (US)": {"DSTEXT_EMPTY_FOLDER": "This folder is empty", "DSTEXT_NO_FAVOURITES": "No favorites yet", "DSTEXT_SETTINGS_CLOCK_FORMAT": "Clock format", "DSTEXT_CLOCK_12H": "12 hour", "DSTEXT_CLOCK_24H": "24 hour"},
+    "Spanish": {"DSTEXT_EMPTY_FOLDER": "Carpeta vacia", "DSTEXT_NO_FAVOURITES": "Sin favoritos", "DSTEXT_SETTINGS_CLOCK_FORMAT": "Formato hora", "DSTEXT_CLOCK_12H": "12 horas", "DSTEXT_CLOCK_24H": "24 horas"},
+    "French": {"DSTEXT_EMPTY_FOLDER": "Dossier vide", "DSTEXT_NO_FAVOURITES": "Aucun favori", "DSTEXT_SETTINGS_CLOCK_FORMAT": "Format heure", "DSTEXT_CLOCK_12H": "12 heures", "DSTEXT_CLOCK_24H": "24 heures"},
+    "Portuguese": {"DSTEXT_EMPTY_FOLDER": "Pasta vazia", "DSTEXT_NO_FAVOURITES": "Sem favoritos", "DSTEXT_SETTINGS_CLOCK_FORMAT": "Formato hora", "DSTEXT_CLOCK_12H": "12 horas", "DSTEXT_CLOCK_24H": "24 horas"},
+    "German": {"DSTEXT_EMPTY_FOLDER": "Ordner leer", "DSTEXT_NO_FAVOURITES": "Keine Favoriten", "DSTEXT_SETTINGS_CLOCK_FORMAT": "Zeitformat", "DSTEXT_CLOCK_12H": "12 Stunden", "DSTEXT_CLOCK_24H": "24 Stunden"},
+    "Turkish": {"DSTEXT_EMPTY_FOLDER": "Klasor bos", "DSTEXT_NO_FAVOURITES": "Favori yok", "DSTEXT_SETTINGS_CLOCK_FORMAT": "Saat bicimi", "DSTEXT_CLOCK_12H": "12 saat", "DSTEXT_CLOCK_24H": "24 saat"},
+    "Italian": {"DSTEXT_EMPTY_FOLDER": "Cartella vuota", "DSTEXT_NO_FAVOURITES": "Nessun preferito", "DSTEXT_SETTINGS_CLOCK_FORMAT": "Formato ora", "DSTEXT_CLOCK_12H": "12 ore", "DSTEXT_CLOCK_24H": "24 ore"},
+    "Dutch": {"DSTEXT_EMPTY_FOLDER": "Map is leeg", "DSTEXT_NO_FAVOURITES": "Geen favorieten", "DSTEXT_SETTINGS_CLOCK_FORMAT": "Tijdformaat", "DSTEXT_CLOCK_12H": "12 uur", "DSTEXT_CLOCK_24H": "24 uur"},
+    "Swedish": {"DSTEXT_EMPTY_FOLDER": "Mappen ar tom", "DSTEXT_NO_FAVOURITES": "Inga favoriter", "DSTEXT_SETTINGS_CLOCK_FORMAT": "Tidsformat", "DSTEXT_CLOCK_12H": "12 timmar", "DSTEXT_CLOCK_24H": "24 timmar"},
+    "Finnish": {"DSTEXT_EMPTY_FOLDER": "Kansio on tyhja", "DSTEXT_NO_FAVOURITES": "Ei suosikkeja", "DSTEXT_SETTINGS_CLOCK_FORMAT": "Ajan muoto", "DSTEXT_CLOCK_12H": "12 tuntia", "DSTEXT_CLOCK_24H": "24 tuntia"},
+})
+
+TEXT_SETTING_ADDITIONS.update({'English (UK)': {'DSTEXT_SETTINGS_ART_BORDER': 'Art border', 'DSTEXT_BORDER_ACCENT': 'Accent', 'DSTEXT_BORDER_BLACK': 'Black', 'DSTEXT_BORDER_GREY': 'Grey', 'DSTEXT_BORDER_WHITE': 'White'},
+    'English (US)': {'DSTEXT_SETTINGS_ART_BORDER': 'Art border', 'DSTEXT_BORDER_ACCENT': 'Accent', 'DSTEXT_BORDER_BLACK': 'Black', 'DSTEXT_BORDER_GREY': 'Gray', 'DSTEXT_BORDER_WHITE': 'White'},
+    'Spanish': {'DSTEXT_SETTINGS_ART_BORDER': 'Borde arte', 'DSTEXT_BORDER_ACCENT': 'Acento', 'DSTEXT_BORDER_BLACK': 'Negro', 'DSTEXT_BORDER_GREY': 'Gris', 'DSTEXT_BORDER_WHITE': 'Blanco'},
+    'French': {'DSTEXT_SETTINGS_ART_BORDER': 'Bord image', 'DSTEXT_BORDER_ACCENT': 'Accent', 'DSTEXT_BORDER_BLACK': 'Noir', 'DSTEXT_BORDER_GREY': 'Gris', 'DSTEXT_BORDER_WHITE': 'Blanc'},
+    'Portuguese': {'DSTEXT_SETTINGS_ART_BORDER': 'Borda arte', 'DSTEXT_BORDER_ACCENT': 'Acento', 'DSTEXT_BORDER_BLACK': 'Preto', 'DSTEXT_BORDER_GREY': 'Cinza', 'DSTEXT_BORDER_WHITE': 'Branco'},
+    'German': {'DSTEXT_SETTINGS_ART_BORDER': 'Bildrand', 'DSTEXT_BORDER_ACCENT': 'Akzent', 'DSTEXT_BORDER_BLACK': 'Schwarz', 'DSTEXT_BORDER_GREY': 'Grau', 'DSTEXT_BORDER_WHITE': 'Weiss'},
+    'Turkish': {'DSTEXT_SETTINGS_ART_BORDER': 'Resim kenari', 'DSTEXT_BORDER_ACCENT': 'Vurgu', 'DSTEXT_BORDER_BLACK': 'Siyah', 'DSTEXT_BORDER_GREY': 'Gri', 'DSTEXT_BORDER_WHITE': 'Beyaz'},
+    'Italian': {'DSTEXT_SETTINGS_ART_BORDER': 'Bordo art', 'DSTEXT_BORDER_ACCENT': 'Accento', 'DSTEXT_BORDER_BLACK': 'Nero', 'DSTEXT_BORDER_GREY': 'Grigio', 'DSTEXT_BORDER_WHITE': 'Bianco'},
+    'Dutch': {'DSTEXT_SETTINGS_ART_BORDER': 'Kunstrand', 'DSTEXT_BORDER_ACCENT': 'Accent', 'DSTEXT_BORDER_BLACK': 'Zwart', 'DSTEXT_BORDER_GREY': 'Grijs', 'DSTEXT_BORDER_WHITE': 'Wit'},
+    'Swedish': {'DSTEXT_SETTINGS_ART_BORDER': 'Bildram', 'DSTEXT_BORDER_ACCENT': 'Accent', 'DSTEXT_BORDER_BLACK': 'Svart', 'DSTEXT_BORDER_GREY': 'Gra', 'DSTEXT_BORDER_WHITE': 'Vit'},
+    'Finnish': {'DSTEXT_SETTINGS_ART_BORDER': 'Kuvan reuna', 'DSTEXT_BORDER_ACCENT': 'Korostus', 'DSTEXT_BORDER_BLACK': 'Musta', 'DSTEXT_BORDER_GREY': 'Harmaa', 'DSTEXT_BORDER_WHITE': 'Valkoinen'}})
+
 for _language, _values in TEXT_SETTING_ADDITIONS.items():
     TEXT_TRANSLATIONS.setdefault(_language, {}).update(_values)
 
@@ -1433,9 +1469,9 @@ CAROUSEL_LAYOUT_DEFAULTS = {
     "LAUNCHER_HORZ_SIDE_W": 60,
     "LAUNCHER_HORZ_SIDE_H": 40,
     "LAUNCHER_HORZ_SIDE_Y": 47,
-    "LAUNCHER_HORZ_LEFT_X": -24,
+    "LAUNCHER_HORZ_LEFT_X": -5,
     "LAUNCHER_HORZ_LEFT_Y": 47,
-    "LAUNCHER_HORZ_RIGHT_X": 204,
+    "LAUNCHER_HORZ_RIGHT_X": 185,
     "LAUNCHER_HORZ_RIGHT_Y": 47,
     "LAUNCHER_HORZ_TITLE_X": 39,
     "LAUNCHER_HORZ_TITLE_Y": 115,
@@ -3286,9 +3322,19 @@ class CustomiserApp(tk.Tk):
         }
         lines.append("    { " + self.c_string_literal("中文", "gbk") + ", 0xE2E2, {")
         zh.update({
+            "DSTEXT_EMPTY_FOLDER": "\u6587\u4ef6\u5939\u4e3a\u7a7a",
+            "DSTEXT_NO_FAVOURITES": "\u6ca1\u6709\u6536\u85cf",
+            "DSTEXT_SETTINGS_CLOCK_FORMAT": "\u65f6\u949f\u683c\u5f0f",
+            "DSTEXT_CLOCK_12H": "12\u5c0f\u65f6",
+            "DSTEXT_CLOCK_24H": "24\u5c0f\u65f6",
             "DSTEXT_SETTINGS_LOAD_STYLE": "\u52a0\u8f7d\u6837\u5f0f",
             "DSTEXT_SETTINGS_HIDE_SYSTEM": "\u9690\u85cf\u7cfb\u7edf",
             "DSTEXT_SETTINGS_LIST_FOLDERS": "\u6587\u4ef6\u5939\u5217\u8868",
+            "DSTEXT_SETTINGS_ART_BORDER": "\u56fe\u50cf\u8fb9\u6846",
+            "DSTEXT_BORDER_ACCENT": "\u5f3a\u8c03",
+            "DSTEXT_BORDER_BLACK": "\u9ed1",
+            "DSTEXT_BORDER_GREY": "\u7070",
+            "DSTEXT_BORDER_WHITE": "\u767d",
             "DSTEXT_CATEGORY_INTERFACE": "\u754c\u9762",
             "DSTEXT_CATEGORY_GAMES": "\u6e38\u620f",
             "DSTEXT_CATEGORY_HARDWARE": "\u786c\u4ef6",
