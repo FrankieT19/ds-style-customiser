@@ -99,6 +99,8 @@ TEXT_SECTIONS = [
         ("DSTEXT_SETTINGS_THUMBNAILS", "Thumbnails"),
         ("DSTEXT_SETTINGS_ART_BORDER", "Art border"),
         ("DSTEXT_SETTINGS_ROUNDED_CORNERS", "Rounded corners"),
+        ("DSTEXT_SETTINGS_VERTICAL_SIDE", "Vertical side"),
+        ("DSTEXT_SETTINGS_HORIZONTAL_SIDE", "Horizontal side"),
         ("DSTEXT_SETTINGS_SOUNDS", "Sounds"),
         ("DSTEXT_SETTINGS_LANGUAGE", "Language"),
         ("DSTEXT_SETTINGS_THEME", "Theme"),
@@ -106,6 +108,8 @@ TEXT_SECTIONS = [
         ("DSTEXT_SETTINGS_LOAD_STYLE", "Load style"),
         ("DSTEXT_SETTINGS_HIDE_SYSTEM", "Hide system"),
         ("DSTEXT_SETTINGS_LIST_FOLDERS", "List folders"),
+        ("DSTEXT_SETTINGS_CLEAN_LIST", "Clean list"),
+        ("DSTEXT_SETTINGS_BOOT_TO", "Boot to"),
         ("DSTEXT_SETTINGS_BOOT_ENGINE", "Boot engine"),
         ("DSTEXT_SETTINGS_AUTO_SAVE", "Auto save"),
         ("DSTEXT_SETTINGS_RESUME_LAST", "Resume last"),
@@ -146,12 +150,26 @@ TEXT_SECTIONS = [
     ("Settings values", [
         ("DSTEXT_ON", "On"),
         ("DSTEXT_OFF", "Off"),
+        ("DSTEXT_ROUNDED_FULL", "Full"),
+        ("DSTEXT_ROUNDED_NO_START", "No Start"),
         ("DSTEXT_CLOCK_12H", "12 hour"),
         ("DSTEXT_CLOCK_24H", "24 hour"),
+        ("DSTEXT_BOOT_TO_START", "Start"),
+        ("DSTEXT_BOOT_TO_SD", "SD"),
+        ("DSTEXT_BOOT_TO_NOR", "NOR"),
+        ("DSTEXT_BOOT_TO_LAST_GAME", "Last game"),
+        ("DSTEXT_BOOT_TO_RECENTS", "Recents"),
+        ("DSTEXT_BOOT_TO_FAVOURITES", "Favourites"),
         ("DSTEXT_BORDER_ACCENT", "Accent"),
         ("DSTEXT_BORDER_BLACK", "Black"),
         ("DSTEXT_BORDER_GREY", "Grey"),
         ("DSTEXT_BORDER_WHITE", "White"),
+        ("DSTEXT_ALIGN_CENTER", "Center"),
+        ("DSTEXT_ALIGN_LEFT", "Left"),
+        ("DSTEXT_ALIGN_RIGHT", "Right"),
+        ("DSTEXT_ALIGN_TOP", "Top"),
+        ("DSTEXT_ALIGN_BOTTOM", "Bottom"),
+        ("DSTEXT_ALIGN_CUSTOM", "Custom"),
         ("DSTEXT_VIEW_LIST", "List"),
         ("DSTEXT_VIEW_HORIZONTAL", "Horizontal"),
         ("DSTEXT_VIEW_VERTICAL", "Vertical"),
@@ -1142,6 +1160,7 @@ TEXT_SETTING_ADDITIONS = {'Dutch': {'DSTEXT_CATEGORY_GAMES': 'Games',
            'DSTEXT_HELP_SAVES': 'Veilig opsl.',
            'DSTEXT_SETTINGS_HIDE_SYSTEM': 'Systeem weg',
            'DSTEXT_SETTINGS_LIST_FOLDERS': 'Mappenlijst',
+           'DSTEXT_SETTINGS_CLEAN_LIST': 'Schone lijst',
            'DSTEXT_SETTINGS_LOAD_STYLE': 'Stijl laden'},
  'English (UK)': {'DSTEXT_CATEGORY_GAMES': 'Games',
                   'DSTEXT_CATEGORY_HARDWARE': 'Hardware',
@@ -1153,6 +1172,7 @@ TEXT_SETTING_ADDITIONS = {'Dutch': {'DSTEXT_CATEGORY_GAMES': 'Games',
                   'DSTEXT_HELP_SAVES': 'Saves & safety',
                   'DSTEXT_SETTINGS_HIDE_SYSTEM': 'Hide system',
                   'DSTEXT_SETTINGS_LIST_FOLDERS': 'List folders',
+           'DSTEXT_SETTINGS_CLEAN_LIST': 'Clean list',
                   'DSTEXT_SETTINGS_LOAD_STYLE': 'Load style'},
  'English (US)': {'DSTEXT_CATEGORY_GAMES': 'Games',
                   'DSTEXT_CATEGORY_HARDWARE': 'Hardware',
@@ -1164,6 +1184,7 @@ TEXT_SETTING_ADDITIONS = {'Dutch': {'DSTEXT_CATEGORY_GAMES': 'Games',
                   'DSTEXT_HELP_SAVES': 'Saves & safety',
                   'DSTEXT_SETTINGS_HIDE_SYSTEM': 'Hide system',
                   'DSTEXT_SETTINGS_LIST_FOLDERS': 'List folders',
+           'DSTEXT_SETTINGS_CLEAN_LIST': 'Clean list',
                   'DSTEXT_SETTINGS_LOAD_STYLE': 'Load style'},
  'Finnish': {'DSTEXT_CATEGORY_GAMES': 'Pelit',
              'DSTEXT_CATEGORY_HARDWARE': 'Laitteisto',
@@ -1175,6 +1196,7 @@ TEXT_SETTING_ADDITIONS = {'Dutch': {'DSTEXT_CATEGORY_GAMES': 'Games',
              'DSTEXT_HELP_SAVES': 'Tall. turva',
              'DSTEXT_SETTINGS_HIDE_SYSTEM': 'Piilota syst.',
              'DSTEXT_SETTINGS_LIST_FOLDERS': 'Kansiolista',
+           'DSTEXT_SETTINGS_CLEAN_LIST': 'Siisti lista',
              'DSTEXT_SETTINGS_LOAD_STYLE': 'Lataa tyyli'},
  'French': {'DSTEXT_CATEGORY_GAMES': 'Jeux',
             'DSTEXT_CATEGORY_HARDWARE': 'Materiel',
@@ -1186,6 +1208,7 @@ TEXT_SETTING_ADDITIONS = {'Dutch': {'DSTEXT_CATEGORY_GAMES': 'Games',
             'DSTEXT_HELP_SAVES': 'Sauvegardes',
             'DSTEXT_SETTINGS_HIDE_SYSTEM': 'Masquer syst.',
             'DSTEXT_SETTINGS_LIST_FOLDERS': 'Liste dossiers',
+           'DSTEXT_SETTINGS_CLEAN_LIST': 'Liste claire',
             'DSTEXT_SETTINGS_LOAD_STYLE': 'Charger style'},
  'German': {'DSTEXT_CATEGORY_GAMES': 'Spiele',
             'DSTEXT_CATEGORY_HARDWARE': 'Hardware',
@@ -1197,6 +1220,7 @@ TEXT_SETTING_ADDITIONS = {'Dutch': {'DSTEXT_CATEGORY_GAMES': 'Games',
             'DSTEXT_HELP_SAVES': 'Spielstand',
             'DSTEXT_SETTINGS_HIDE_SYSTEM': 'System ausbl.',
             'DSTEXT_SETTINGS_LIST_FOLDERS': 'Ordnerliste',
+           'DSTEXT_SETTINGS_CLEAN_LIST': 'Klare Liste',
             'DSTEXT_SETTINGS_LOAD_STYLE': 'Stil laden'},
  'Italian': {'DSTEXT_CATEGORY_GAMES': 'Giochi',
              'DSTEXT_CATEGORY_HARDWARE': 'Hardware',
@@ -1208,6 +1232,7 @@ TEXT_SETTING_ADDITIONS = {'Dutch': {'DSTEXT_CATEGORY_GAMES': 'Games',
              'DSTEXT_HELP_SAVES': 'Salvataggi',
              'DSTEXT_SETTINGS_HIDE_SYSTEM': 'Nascondi sist.',
              'DSTEXT_SETTINGS_LIST_FOLDERS': 'Lista cartelle',
+           'DSTEXT_SETTINGS_CLEAN_LIST': 'Lista pulita',
              'DSTEXT_SETTINGS_LOAD_STYLE': 'Carica stile'},
  'Portuguese': {'DSTEXT_CATEGORY_GAMES': 'Jogos',
                 'DSTEXT_CATEGORY_HARDWARE': 'Hardware',
@@ -1219,6 +1244,7 @@ TEXT_SETTING_ADDITIONS = {'Dutch': {'DSTEXT_CATEGORY_GAMES': 'Games',
                 'DSTEXT_HELP_SAVES': 'Guardados',
                 'DSTEXT_SETTINGS_HIDE_SYSTEM': 'Ocultar sist.',
                 'DSTEXT_SETTINGS_LIST_FOLDERS': 'Listar pastas',
+           'DSTEXT_SETTINGS_CLEAN_LIST': 'Lista limpa',
                 'DSTEXT_SETTINGS_LOAD_STYLE': 'Carg. estilo'},
  'Spanish': {'DSTEXT_CATEGORY_GAMES': 'Juegos',
              'DSTEXT_CATEGORY_HARDWARE': 'Hardware',
@@ -1230,6 +1256,7 @@ TEXT_SETTING_ADDITIONS = {'Dutch': {'DSTEXT_CATEGORY_GAMES': 'Games',
              'DSTEXT_HELP_SAVES': 'Guard. seguro',
              'DSTEXT_SETTINGS_HIDE_SYSTEM': 'Ocultar sist.',
              'DSTEXT_SETTINGS_LIST_FOLDERS': 'Lista carpetas',
+           'DSTEXT_SETTINGS_CLEAN_LIST': 'Lista limpia',
              'DSTEXT_SETTINGS_LOAD_STYLE': 'Cargar estilo'},
  'Swedish': {'DSTEXT_CATEGORY_GAMES': 'Spel',
              'DSTEXT_CATEGORY_HARDWARE': 'Hardvara',
@@ -1241,6 +1268,7 @@ TEXT_SETTING_ADDITIONS = {'Dutch': {'DSTEXT_CATEGORY_GAMES': 'Games',
              'DSTEXT_HELP_SAVES': 'Spara sakert',
              'DSTEXT_SETTINGS_HIDE_SYSTEM': 'Dolj system',
              'DSTEXT_SETTINGS_LIST_FOLDERS': 'Lista mappar',
+           'DSTEXT_SETTINGS_CLEAN_LIST': 'Ren lista',
              'DSTEXT_SETTINGS_LOAD_STYLE': 'Ladda stil'},
  'Turkish': {'DSTEXT_CATEGORY_GAMES': 'Oyunlar',
              'DSTEXT_CATEGORY_HARDWARE': 'Donanim',
@@ -1252,9 +1280,14 @@ TEXT_SETTING_ADDITIONS = {'Dutch': {'DSTEXT_CATEGORY_GAMES': 'Games',
              'DSTEXT_HELP_SAVES': 'Kayit guven',
              'DSTEXT_SETTINGS_HIDE_SYSTEM': 'Sistemi gizle',
              'DSTEXT_SETTINGS_LIST_FOLDERS': 'Klasor liste',
+           'DSTEXT_SETTINGS_CLEAN_LIST': 'Temiz liste',
              'DSTEXT_SETTINGS_LOAD_STYLE': 'Stil yukle'}}
 
-TEXT_SETTING_ADDITIONS.update({
+def MERGE_TEXT_SETTING_ADDITIONS(values):
+    for language, additions in values.items():
+        TEXT_SETTING_ADDITIONS.setdefault(language, {}).update(additions)
+
+MERGE_TEXT_SETTING_ADDITIONS({
     "English (UK)": {"DSTEXT_EMPTY_FOLDER": "This folder is empty", "DSTEXT_NO_FAVOURITES": "No favourites yet", "DSTEXT_SETTINGS_CLOCK_FORMAT": "Clock format", "DSTEXT_CLOCK_12H": "12 hour", "DSTEXT_CLOCK_24H": "24 hour"},
     "English (US)": {"DSTEXT_EMPTY_FOLDER": "This folder is empty", "DSTEXT_NO_FAVOURITES": "No favorites yet", "DSTEXT_SETTINGS_CLOCK_FORMAT": "Clock format", "DSTEXT_CLOCK_12H": "12 hour", "DSTEXT_CLOCK_24H": "24 hour"},
     "Spanish": {"DSTEXT_EMPTY_FOLDER": "Carpeta vacia", "DSTEXT_NO_FAVOURITES": "Sin favoritos", "DSTEXT_SETTINGS_CLOCK_FORMAT": "Formato hora", "DSTEXT_CLOCK_12H": "12 horas", "DSTEXT_CLOCK_24H": "24 horas"},
@@ -1268,7 +1301,7 @@ TEXT_SETTING_ADDITIONS.update({
     "Finnish": {"DSTEXT_EMPTY_FOLDER": "Kansio on tyhja", "DSTEXT_NO_FAVOURITES": "Ei suosikkeja", "DSTEXT_SETTINGS_CLOCK_FORMAT": "Ajan muoto", "DSTEXT_CLOCK_12H": "12 tuntia", "DSTEXT_CLOCK_24H": "24 tuntia"},
 })
 
-TEXT_SETTING_ADDITIONS.update({'English (UK)': {'DSTEXT_SETTINGS_ART_BORDER': 'Art border', 'DSTEXT_BORDER_ACCENT': 'Accent', 'DSTEXT_BORDER_BLACK': 'Black', 'DSTEXT_BORDER_GREY': 'Grey', 'DSTEXT_BORDER_WHITE': 'White'},
+MERGE_TEXT_SETTING_ADDITIONS({'English (UK)': {'DSTEXT_SETTINGS_ART_BORDER': 'Art border', 'DSTEXT_BORDER_ACCENT': 'Accent', 'DSTEXT_BORDER_BLACK': 'Black', 'DSTEXT_BORDER_GREY': 'Grey', 'DSTEXT_BORDER_WHITE': 'White'},
     'English (US)': {'DSTEXT_SETTINGS_ART_BORDER': 'Art border', 'DSTEXT_BORDER_ACCENT': 'Accent', 'DSTEXT_BORDER_BLACK': 'Black', 'DSTEXT_BORDER_GREY': 'Gray', 'DSTEXT_BORDER_WHITE': 'White'},
     'Spanish': {'DSTEXT_SETTINGS_ART_BORDER': 'Borde arte', 'DSTEXT_BORDER_ACCENT': 'Acento', 'DSTEXT_BORDER_BLACK': 'Negro', 'DSTEXT_BORDER_GREY': 'Gris', 'DSTEXT_BORDER_WHITE': 'Blanco'},
     'French': {'DSTEXT_SETTINGS_ART_BORDER': 'Bord image', 'DSTEXT_BORDER_ACCENT': 'Accent', 'DSTEXT_BORDER_BLACK': 'Noir', 'DSTEXT_BORDER_GREY': 'Gris', 'DSTEXT_BORDER_WHITE': 'Blanc'},
@@ -1280,7 +1313,7 @@ TEXT_SETTING_ADDITIONS.update({'English (UK)': {'DSTEXT_SETTINGS_ART_BORDER': 'A
     'Swedish': {'DSTEXT_SETTINGS_ART_BORDER': 'Bildram', 'DSTEXT_BORDER_ACCENT': 'Accent', 'DSTEXT_BORDER_BLACK': 'Svart', 'DSTEXT_BORDER_GREY': 'Gra', 'DSTEXT_BORDER_WHITE': 'Vit'},
     'Finnish': {'DSTEXT_SETTINGS_ART_BORDER': 'Kuvan reuna', 'DSTEXT_BORDER_ACCENT': 'Korostus', 'DSTEXT_BORDER_BLACK': 'Musta', 'DSTEXT_BORDER_GREY': 'Harmaa', 'DSTEXT_BORDER_WHITE': 'Valkoinen'}})
 
-TEXT_SETTING_ADDITIONS.update({
+MERGE_TEXT_SETTING_ADDITIONS({
     'English (UK)': {'DSTEXT_SETTINGS_ROUNDED_CORNERS': 'Rounded corners'},
     'English (US)': {'DSTEXT_SETTINGS_ROUNDED_CORNERS': 'Rounded corners'},
     'Spanish': {'DSTEXT_SETTINGS_ROUNDED_CORNERS': 'Bordes red.'},
@@ -1294,6 +1327,48 @@ TEXT_SETTING_ADDITIONS.update({
     'Finnish': {'DSTEXT_SETTINGS_ROUNDED_CORNERS': 'Pyoreat kulmat'},
 })
 
+MERGE_TEXT_SETTING_ADDITIONS({
+    'English (UK)': {'DSTEXT_ROUNDED_FULL': 'Full', 'DSTEXT_ROUNDED_NO_START': 'No Start'},
+    'English (US)': {'DSTEXT_ROUNDED_FULL': 'Full', 'DSTEXT_ROUNDED_NO_START': 'No Start'},
+    'Spanish': {'DSTEXT_ROUNDED_FULL': 'Todo', 'DSTEXT_ROUNDED_NO_START': 'Sin inicio'},
+    'French': {'DSTEXT_ROUNDED_FULL': 'Tout', 'DSTEXT_ROUNDED_NO_START': 'Sans debut'},
+    'Portuguese': {'DSTEXT_ROUNDED_FULL': 'Tudo', 'DSTEXT_ROUNDED_NO_START': 'Sem inicio'},
+    'German': {'DSTEXT_ROUNDED_FULL': 'Alles', 'DSTEXT_ROUNDED_NO_START': 'Ohne Start'},
+    'Turkish': {'DSTEXT_ROUNDED_FULL': 'Tam', 'DSTEXT_ROUNDED_NO_START': 'Baslangic yok'},
+    'Italian': {'DSTEXT_ROUNDED_FULL': 'Tutto', 'DSTEXT_ROUNDED_NO_START': 'No avvio'},
+    'Dutch': {'DSTEXT_ROUNDED_FULL': 'Alles', 'DSTEXT_ROUNDED_NO_START': 'Geen start'},
+    'Swedish': {'DSTEXT_ROUNDED_FULL': 'Allt', 'DSTEXT_ROUNDED_NO_START': 'Ej start'},
+    'Finnish': {'DSTEXT_ROUNDED_FULL': 'Kaikki', 'DSTEXT_ROUNDED_NO_START': 'Ei aloitus'},
+})
+
+MERGE_TEXT_SETTING_ADDITIONS({
+    'English (UK)': {'DSTEXT_SETTINGS_VERTICAL_SIDE': 'Vertical side', 'DSTEXT_SETTINGS_HORIZONTAL_SIDE': 'Horizontal side', 'DSTEXT_ALIGN_CENTER': 'Centre', 'DSTEXT_ALIGN_LEFT': 'Left', 'DSTEXT_ALIGN_RIGHT': 'Right', 'DSTEXT_ALIGN_TOP': 'Top', 'DSTEXT_ALIGN_BOTTOM': 'Bottom', 'DSTEXT_ALIGN_CUSTOM': 'Custom'},
+    'English (US)': {'DSTEXT_SETTINGS_VERTICAL_SIDE': 'Vertical side', 'DSTEXT_SETTINGS_HORIZONTAL_SIDE': 'Horizontal side', 'DSTEXT_ALIGN_CENTER': 'Center', 'DSTEXT_ALIGN_LEFT': 'Left', 'DSTEXT_ALIGN_RIGHT': 'Right', 'DSTEXT_ALIGN_TOP': 'Top', 'DSTEXT_ALIGN_BOTTOM': 'Bottom', 'DSTEXT_ALIGN_CUSTOM': 'Custom'},
+    'Spanish': {'DSTEXT_SETTINGS_VERTICAL_SIDE': 'Lado vertical', 'DSTEXT_SETTINGS_HORIZONTAL_SIDE': 'Lado horiz.', 'DSTEXT_ALIGN_CENTER': 'Centro', 'DSTEXT_ALIGN_LEFT': 'Izquierda', 'DSTEXT_ALIGN_RIGHT': 'Derecha', 'DSTEXT_ALIGN_TOP': 'Arriba', 'DSTEXT_ALIGN_BOTTOM': 'Abajo', 'DSTEXT_ALIGN_CUSTOM': 'Personal'},
+    'French': {'DSTEXT_SETTINGS_VERTICAL_SIDE': 'Cote vertical', 'DSTEXT_SETTINGS_HORIZONTAL_SIDE': 'Cote horiz.', 'DSTEXT_ALIGN_CENTER': 'Centre', 'DSTEXT_ALIGN_LEFT': 'Gauche', 'DSTEXT_ALIGN_RIGHT': 'Droite', 'DSTEXT_ALIGN_TOP': 'Haut', 'DSTEXT_ALIGN_BOTTOM': 'Bas', 'DSTEXT_ALIGN_CUSTOM': 'Perso'},
+    'Portuguese': {'DSTEXT_SETTINGS_VERTICAL_SIDE': 'Lado vertical', 'DSTEXT_SETTINGS_HORIZONTAL_SIDE': 'Lado horiz.', 'DSTEXT_ALIGN_CENTER': 'Centro', 'DSTEXT_ALIGN_LEFT': 'Esquerda', 'DSTEXT_ALIGN_RIGHT': 'Direita', 'DSTEXT_ALIGN_TOP': 'Topo', 'DSTEXT_ALIGN_BOTTOM': 'Baixo', 'DSTEXT_ALIGN_CUSTOM': 'Personal'},
+    'German': {'DSTEXT_SETTINGS_VERTICAL_SIDE': 'Seite vert.', 'DSTEXT_SETTINGS_HORIZONTAL_SIDE': 'Seite horiz.', 'DSTEXT_ALIGN_CENTER': 'Mitte', 'DSTEXT_ALIGN_LEFT': 'Links', 'DSTEXT_ALIGN_RIGHT': 'Rechts', 'DSTEXT_ALIGN_TOP': 'Oben', 'DSTEXT_ALIGN_BOTTOM': 'Unten', 'DSTEXT_ALIGN_CUSTOM': 'Eigen'},
+    'Turkish': {'DSTEXT_SETTINGS_VERTICAL_SIDE': 'Dikey yan', 'DSTEXT_SETTINGS_HORIZONTAL_SIDE': 'Yatay yan', 'DSTEXT_ALIGN_CENTER': 'Orta', 'DSTEXT_ALIGN_LEFT': 'Sol', 'DSTEXT_ALIGN_RIGHT': 'Sag', 'DSTEXT_ALIGN_TOP': 'Ust', 'DSTEXT_ALIGN_BOTTOM': 'Alt', 'DSTEXT_ALIGN_CUSTOM': 'Ozel'},
+    'Italian': {'DSTEXT_SETTINGS_VERTICAL_SIDE': 'Lato vert.', 'DSTEXT_SETTINGS_HORIZONTAL_SIDE': 'Lato orizz.', 'DSTEXT_ALIGN_CENTER': 'Centro', 'DSTEXT_ALIGN_LEFT': 'Sinistra', 'DSTEXT_ALIGN_RIGHT': 'Destra', 'DSTEXT_ALIGN_TOP': 'Alto', 'DSTEXT_ALIGN_BOTTOM': 'Basso', 'DSTEXT_ALIGN_CUSTOM': 'Pers.'},
+    'Dutch': {'DSTEXT_SETTINGS_VERTICAL_SIDE': 'Zij vert.', 'DSTEXT_SETTINGS_HORIZONTAL_SIDE': 'Zij horiz.', 'DSTEXT_ALIGN_CENTER': 'Midden', 'DSTEXT_ALIGN_LEFT': 'Links', 'DSTEXT_ALIGN_RIGHT': 'Rechts', 'DSTEXT_ALIGN_TOP': 'Boven', 'DSTEXT_ALIGN_BOTTOM': 'Onder', 'DSTEXT_ALIGN_CUSTOM': 'Aangep.'},
+    'Swedish': {'DSTEXT_SETTINGS_VERTICAL_SIDE': 'Sida vert.', 'DSTEXT_SETTINGS_HORIZONTAL_SIDE': 'Sida horis.', 'DSTEXT_ALIGN_CENTER': 'Mitten', 'DSTEXT_ALIGN_LEFT': 'Vanster', 'DSTEXT_ALIGN_RIGHT': 'Hoger', 'DSTEXT_ALIGN_TOP': 'Uppe', 'DSTEXT_ALIGN_BOTTOM': 'Nere', 'DSTEXT_ALIGN_CUSTOM': 'Egen'},
+    'Finnish': {'DSTEXT_SETTINGS_VERTICAL_SIDE': 'Pystysivu', 'DSTEXT_SETTINGS_HORIZONTAL_SIDE': 'Vaakasivu', 'DSTEXT_ALIGN_CENTER': 'Keskelle', 'DSTEXT_ALIGN_LEFT': 'Vasen', 'DSTEXT_ALIGN_RIGHT': 'Oikea', 'DSTEXT_ALIGN_TOP': 'Ylos', 'DSTEXT_ALIGN_BOTTOM': 'Alas', 'DSTEXT_ALIGN_CUSTOM': 'Oma'},
+})
+
+MERGE_TEXT_SETTING_ADDITIONS({
+    'English (UK)': {'DSTEXT_SETTINGS_BOOT_TO': 'Boot to', 'DSTEXT_BOOT_TO_START': 'Start', 'DSTEXT_BOOT_TO_SD': 'SD', 'DSTEXT_BOOT_TO_NOR': 'NOR', 'DSTEXT_BOOT_TO_LAST_GAME': 'Last game', 'DSTEXT_BOOT_TO_RECENTS': 'Recents', 'DSTEXT_BOOT_TO_FAVOURITES': 'Favourites'},
+    'English (US)': {'DSTEXT_SETTINGS_BOOT_TO': 'Boot to', 'DSTEXT_BOOT_TO_START': 'Start', 'DSTEXT_BOOT_TO_SD': 'SD', 'DSTEXT_BOOT_TO_NOR': 'NOR', 'DSTEXT_BOOT_TO_LAST_GAME': 'Last game', 'DSTEXT_BOOT_TO_RECENTS': 'Recents', 'DSTEXT_BOOT_TO_FAVOURITES': 'Favorites'},
+    'Spanish': {'DSTEXT_SETTINGS_BOOT_TO': 'Iniciar en', 'DSTEXT_BOOT_TO_START': 'Inicio', 'DSTEXT_BOOT_TO_SD': 'SD', 'DSTEXT_BOOT_TO_NOR': 'NOR', 'DSTEXT_BOOT_TO_LAST_GAME': 'Ultimo juego', 'DSTEXT_BOOT_TO_RECENTS': 'Recientes', 'DSTEXT_BOOT_TO_FAVOURITES': 'Favoritos'},
+    'French': {'DSTEXT_SETTINGS_BOOT_TO': 'Demarrer sur', 'DSTEXT_BOOT_TO_START': 'Accueil', 'DSTEXT_BOOT_TO_SD': 'SD', 'DSTEXT_BOOT_TO_NOR': 'NOR', 'DSTEXT_BOOT_TO_LAST_GAME': 'Dernier jeu', 'DSTEXT_BOOT_TO_RECENTS': 'Recents', 'DSTEXT_BOOT_TO_FAVOURITES': 'Favoris'},
+    'Portuguese': {'DSTEXT_SETTINGS_BOOT_TO': 'Iniciar em', 'DSTEXT_BOOT_TO_START': 'Inicio', 'DSTEXT_BOOT_TO_SD': 'SD', 'DSTEXT_BOOT_TO_NOR': 'NOR', 'DSTEXT_BOOT_TO_LAST_GAME': 'Ultimo jogo', 'DSTEXT_BOOT_TO_RECENTS': 'Recentes', 'DSTEXT_BOOT_TO_FAVOURITES': 'Favoritos'},
+    'German': {'DSTEXT_SETTINGS_BOOT_TO': 'Start mit', 'DSTEXT_BOOT_TO_START': 'Start', 'DSTEXT_BOOT_TO_SD': 'SD', 'DSTEXT_BOOT_TO_NOR': 'NOR', 'DSTEXT_BOOT_TO_LAST_GAME': 'Letztes Spiel', 'DSTEXT_BOOT_TO_RECENTS': 'Zuletzt', 'DSTEXT_BOOT_TO_FAVOURITES': 'Favoriten'},
+    'Turkish': {'DSTEXT_SETTINGS_BOOT_TO': 'Acilis', 'DSTEXT_BOOT_TO_START': 'Baslangic', 'DSTEXT_BOOT_TO_SD': 'SD', 'DSTEXT_BOOT_TO_NOR': 'NOR', 'DSTEXT_BOOT_TO_LAST_GAME': 'Son oyun', 'DSTEXT_BOOT_TO_RECENTS': 'Sonlar', 'DSTEXT_BOOT_TO_FAVOURITES': 'Favoriler'},
+    'Italian': {'DSTEXT_SETTINGS_BOOT_TO': 'Avvia su', 'DSTEXT_BOOT_TO_START': 'Avvio', 'DSTEXT_BOOT_TO_SD': 'SD', 'DSTEXT_BOOT_TO_NOR': 'NOR', 'DSTEXT_BOOT_TO_LAST_GAME': 'Ultimo gioco', 'DSTEXT_BOOT_TO_RECENTS': 'Recenti', 'DSTEXT_BOOT_TO_FAVOURITES': 'Preferiti'},
+    'Dutch': {'DSTEXT_SETTINGS_BOOT_TO': 'Start naar', 'DSTEXT_BOOT_TO_START': 'Start', 'DSTEXT_BOOT_TO_SD': 'SD', 'DSTEXT_BOOT_TO_NOR': 'NOR', 'DSTEXT_BOOT_TO_LAST_GAME': 'Laatste spel', 'DSTEXT_BOOT_TO_RECENTS': 'Recent', 'DSTEXT_BOOT_TO_FAVOURITES': 'Favorieten'},
+    'Swedish': {'DSTEXT_SETTINGS_BOOT_TO': 'Starta till', 'DSTEXT_BOOT_TO_START': 'Start', 'DSTEXT_BOOT_TO_SD': 'SD', 'DSTEXT_BOOT_TO_NOR': 'NOR', 'DSTEXT_BOOT_TO_LAST_GAME': 'Senaste spel', 'DSTEXT_BOOT_TO_RECENTS': 'Senaste', 'DSTEXT_BOOT_TO_FAVOURITES': 'Favoriter'},
+    'Finnish': {'DSTEXT_SETTINGS_BOOT_TO': 'Kaynnista', 'DSTEXT_BOOT_TO_START': 'Aloitus', 'DSTEXT_BOOT_TO_SD': 'SD', 'DSTEXT_BOOT_TO_NOR': 'NOR', 'DSTEXT_BOOT_TO_LAST_GAME': 'Viime peli', 'DSTEXT_BOOT_TO_RECENTS': 'Viimeiset', 'DSTEXT_BOOT_TO_FAVOURITES': 'Suosikit'},
+})
+
 for _language, _values in TEXT_SETTING_ADDITIONS.items():
     TEXT_TRANSLATIONS.setdefault(_language, {}).update(_values)
 
@@ -1301,6 +1376,24 @@ for _translation in TEXT_TRANSLATIONS.values():
     _translation.setdefault("DSTEXT_START_SETTINGS", _translation.get("DSTEXT_SETTINGS_TITLE", "Settings"))
 
 THAI_TEXT_BAKED = {'DSTEXT_LANGUAGE_NAME': 'ภาษาไทย', 'DSTEXT_NO_RECENT_GAME': 'ไม่มีเกม', 'DSTEXT_SD_CARD': 'SD การ์ด', 'DSTEXT_NOR_FLASH': 'NOR Flash', 'DSTEXT_START_SETTINGS': 'การตั้งค่า', 'DSTEXT_RECENTLY_PLAYED': 'เพิ่งเล่น', 'DSTEXT_LAST_PLAYED': 'ล่าสุด', 'DSTEXT_FAVOURITES': 'รายการโปรด', 'DSTEXT_SETTINGS_TITLE': 'การตั้งค่า', 'DSTEXT_SETTINGS_TIME': 'ตั้งเวลา', 'DSTEXT_SETTINGS_VIEW_MODE': 'โหมดมุมมอง', 'DSTEXT_SETTINGS_THUMBNAILS': 'ภาพย่อ', 'DSTEXT_SETTINGS_SOUNDS': 'เสียง', 'DSTEXT_SETTINGS_LANGUAGE': 'ภาษา', 'DSTEXT_SETTINGS_THEME': 'ธีม', 'DSTEXT_SETTINGS_COLOUR': 'สี', 'DSTEXT_SETTINGS_BOOT_ENGINE': 'รูปแบบการบูต', 'DSTEXT_SETTINGS_AUTO_SAVE': 'บันทึกอัตโนมัติ', 'DSTEXT_SETTINGS_RESUME_LAST': 'ต่อจากล่าสุด', 'DSTEXT_SETTINGS_START_SCREEN': 'หน้าเริ่มต้น', 'DSTEXT_SETTINGS_QUICK_START': 'เริ่มด่วน', 'DSTEXT_SETTINGS_BOOT_MODE': 'โหมดบูต', 'DSTEXT_SETTINGS_MODE_B': 'โหมด B', 'DSTEXT_SETTINGS_INGAME_RTC': 'นาฬิกาในเกม', 'DSTEXT_SETTINGS_ENABLE_BIOS': 'เปิด BIOS', 'DSTEXT_SETTINGS_BACKUP_SAVES': 'สำรองข้อมูล', 'DSTEXT_SETTINGS_HELP': 'ช่วยเหลือ', 'DSTEXT_SETTINGS_ADDON': 'ส่วนเสริม', 'DSTEXT_ADDON_RESET': 'รีเซ็ต', 'DSTEXT_ADDON_RTS': 'RTS', 'DSTEXT_ADDON_SLEEP': 'สลีป', 'DSTEXT_ADDON_CHEAT': 'สูตรโกง', 'DSTEXT_SETTINGS_SLEEP_HOTKEY': 'ปุ่มลัดสลีป', 'DSTEXT_SETTINGS_ADDON_HOTKEY': 'ปุ่มลัดเมนู', 'DSTEXT_SETTINGS_LED': 'การตั้งค่า LED', 'DSTEXT_LED_MASTER': 'LED หลัก', 'DSTEXT_LED_BREATH_RED': 'Breath red', 'DSTEXT_LED_BREATH_GREEN': 'Breath green', 'DSTEXT_LED_BREATH_BLUE': 'Breath blue', 'DSTEXT_LED_SD_RED': 'SD red', 'DSTEXT_LED_SD_GREEN': 'SD green', 'DSTEXT_LED_SD_BLUE': 'SD blue', 'DSTEXT_ON': 'เปิด', 'DSTEXT_OFF': 'ปิด', 'DSTEXT_VIEW_LIST': 'รายการ', 'DSTEXT_VIEW_HORIZONTAL': 'แนวนอน', 'DSTEXT_VIEW_VERTICAL': 'แนวตั้ง', 'DSTEXT_THUMB_TITLE': 'ชื่อ', 'DSTEXT_THUMB_BOX': 'กล่อง', 'DSTEXT_ENGINE_FAST': 'เร็ว', 'DSTEXT_ENGINE_MANUAL': 'กำหนดเอง', 'DSTEXT_BOOT_CLEAN': 'ปกติ', 'DSTEXT_BOOT_ADDON': 'ส่วนเสริม', 'DSTEXT_BOOT_MENU': 'เมนู', 'DSTEXT_MODE_RUMBLE': 'สั่น', 'DSTEXT_MODE_RAM': 'RAM', 'DSTEXT_MODE_LINK': 'เชื่อมต่อ', 'DSTEXT_HELP_TITLE': 'ช่วยเหลือ', 'DSTEXT_CONTROLS_TITLE': 'การควบคุม', 'DSTEXT_CONTROL_A': 'A: ยืนยัน / เข้า', 'DSTEXT_CONTROL_B': 'B: ยกเลิก / กลับ', 'DSTEXT_CONTROL_DPAD': 'D-pad / L / R: นำทาง', 'DSTEXT_CONTROL_START': 'Start (SD): ล่าสุด/รายการโปรด', 'DSTEXT_CONTROL_SELECT': 'Select: สลับมุมมอง', 'DSTEXT_CONTROL_HOLD_START': 'กด Start: ลบไฟล์', 'DSTEXT_CONTROL_DOUBLE_SELECT': 'กด Select 2ครั้ง: ตั้งโปรด', 'DSTEXT_CONTROL_QUICK_HOTKEY': 'กดปุ่มลัดขณะเปิด:', 'DSTEXT_CONTROL_QUICK_ACTION': 'เปิดเกมล่าสุดทันที', 'DSTEXT_STATUS_INIT_ERROR': 'ไม่สามารถเริ่มต้น SD', 'DSTEXT_STATUS_POWER_OFF': 'ปิดเครื่อง', 'DSTEXT_STATUS_INIT_OK': 'เริ่มต้น SD สำเร็จ', 'DSTEXT_STATUS_LOADING': 'กำลังโหลด...', 'DSTEXT_STATUS_FILE_TOO_BIG': 'ไฟล์ใหญ่เกินไป', 'DSTEXT_STATUS_WRITING': 'กำลังเขียน...', 'DSTEXT_STATUS_SELECT_LATEST': 'เลือกล่าสุด', 'DSTEXT_STATUS_CHECK_SAVE': 'ตรวจสอบ Save...', 'DSTEXT_STATUS_MAKE_SAVE': 'สร้าง Save...', 'DSTEXT_STATUS_CHECK_RTS': 'ตรวจสอบ RTS...', 'DSTEXT_STATUS_MAKE_RTS': 'สร้าง RTS...', 'DSTEXT_STATUS_CHECK_PATCH': 'ตรวจสอบแพทช์...', 'DSTEXT_STATUS_MAKE_PATCH': 'สร้างแพทช์...', 'DSTEXT_STATUS_LOADING_ROM': 'กำลังโหลด ROM...', 'DSTEXT_STATUS_NO_ROMS': 'ไม่พบไฟล์ .gba!', 'DSTEXT_STATUS_COPYING_ROM': 'กำลังคัดลอก ROM...', 'DSTEXT_STATUS_GENERATING_EMU': 'สร้างโปรแกรมจำลอง...', 'DSTEXT_STATUS_COPY_SAVE': 'คัดลอกข้อมูลเซฟ?', 'DSTEXT_STATUS_SAVING': 'กำลังบันทึก...', 'DSTEXT_STATUS_SAVE_LOADED': 'โหลดเซฟแล้ว', 'DSTEXT_STATUS_SAVE_SAVED': 'บันทึกเซฟแล้ว', 'DSTEXT_STATUS_FILE_EXISTS': 'เขียนทับไฟล์?', 'DSTEXT_STATUS_SAVE_NOT_FOUND': 'ไม่พบไฟล์เซฟ', 'DSTEXT_STATUS_NOR_FULL': 'NOR เต็มแล้ว!', 'DSTEXT_ROM_MENU_CLEAN': 'โหลดตรง', 'DSTEXT_ROM_MENU_ADDON': 'โหลดพร้อมส่วนเสริม', 'DSTEXT_ROM_MENU_WRITE_NOR': 'บันทึก NOR', 'DSTEXT_ROM_MENU_WRITE_NOR_ADDON': 'บันทึก NOR+ส่วนเสริม', 'DSTEXT_ROM_MENU_SAVE_TYPE': 'ประเภทเซฟ', 'DSTEXT_ROM_MENU_CHEAT': 'สูตรโกง', 'DSTEXT_NOR_MENU_DIRECT': 'โหลดตรง', 'DSTEXT_NOR_MENU_DELETE': 'ลบ', 'DSTEXT_NOR_MENU_FORMAT': 'ฟอร์แมตทั้งหมด', 'DSTEXT_NOR_MENU_LOAD_SAVE': 'โหลดเซฟ FRAM', 'DSTEXT_NOR_MENU_SAVE_SAVE': 'บันทึกเซฟ FRAM', 'DSTEXT_ERROR_FOLDER': 'ข้อผิดพลาดโฟลเดอร์', 'DSTEXT_ERROR_FILE': 'ข้อผิดพลาดไฟล์', 'DSTEXT_ERROR_SAVER': 'ข้อผิดพลาดของ SAVER', 'DSTEXT_ERROR_SAVE': 'ข้อผิดพลาดการบันทึก', 'DSTEXT_ERROR_READ_SAVE': 'ข้อผิดพลาดการอ่านเซฟ', 'DSTEXT_ERROR_MAKE_SAVE': 'ข้อผิดพลาดการสร้างเซฟ', 'DSTEXT_ERROR_RTS': 'ข้อผิดพลาด RTS', 'DSTEXT_EMPTY_FOLDER': 'โฟลเดอร์ว่าง', 'DSTEXT_NO_FAVOURITES': 'ยังไม่มีรายการโปรด', 'DSTEXT_SETTINGS_CLOCK_FORMAT': 'รูปแบบเวลา', 'DSTEXT_CLOCK_12H': '12 ชั่วโมง', 'DSTEXT_CLOCK_24H': '24 ชั่วโมง', 'DSTEXT_SETTINGS_LOAD_STYLE': 'โหลดสไตล์', 'DSTEXT_SETTINGS_HIDE_SYSTEM': 'ซ่อนไฟล์ระบบ', 'DSTEXT_SETTINGS_LIST_FOLDERS': 'รายการโฟลเดอร์', 'DSTEXT_SETTINGS_ART_BORDER': 'ขอบภาพ', 'DSTEXT_SETTINGS_ROUNDED_CORNERS': 'มุมโค้ง', 'DSTEXT_BORDER_ACCENT': 'สีเน้น', 'DSTEXT_BORDER_BLACK': 'ดำ', 'DSTEXT_BORDER_GREY': 'เทา', 'DSTEXT_BORDER_WHITE': 'ขาว', 'DSTEXT_CATEGORY_INTERFACE': 'อินเทอร์เฟซ', 'DSTEXT_CATEGORY_GAMES': 'เกม', 'DSTEXT_CATEGORY_HARDWARE': 'ฮาร์ดแวร์', 'DSTEXT_HELP_ONLINE': 'คู่มือออนไลน์', 'DSTEXT_HELP_OPERATION': 'ใช้ DS Style', 'DSTEXT_HELP_ARTWORK': 'ภาพประกอบ', 'DSTEXT_HELP_SAVES': 'เซฟและความปลอดภัย', 'DSTEXT_HELP_ABOUT': 'เกี่ยวกับ'}
+
+THAI_TEXT_BAKED.update({
+    "DSTEXT_SETTINGS_BOOT_TO": "\u0e40\u0e1b\u0e34\u0e14\u0e44\u0e1b\u0e17\u0e35\u0e48",
+    "DSTEXT_BOOT_TO_START": "\u0e40\u0e23\u0e34\u0e48\u0e21\u0e15\u0e49\u0e19",
+    "DSTEXT_BOOT_TO_SD": "SD",
+    "DSTEXT_BOOT_TO_NOR": "NOR",
+    "DSTEXT_BOOT_TO_LAST_GAME": "\u0e40\u0e01\u0e21\u0e25\u0e48\u0e32\u0e2a\u0e38\u0e14",
+    "DSTEXT_BOOT_TO_RECENTS": "\u0e25\u0e48\u0e32\u0e2a\u0e38\u0e14",
+    "DSTEXT_BOOT_TO_FAVOURITES": "\u0e23\u0e32\u0e22\u0e01\u0e32\u0e23\u0e42\u0e1b\u0e23\u0e14",
+    "DSTEXT_SETTINGS_VERTICAL_SIDE": "ภาพข้างตั้ง",
+    "DSTEXT_SETTINGS_HORIZONTAL_SIDE": "ภาพข้างนอน",
+    "DSTEXT_ALIGN_CENTER": "กลาง",
+    "DSTEXT_ALIGN_LEFT": "ซ้าย",
+    "DSTEXT_ALIGN_RIGHT": "ขวา",
+    "DSTEXT_ALIGN_TOP": "บน",
+    "DSTEXT_ALIGN_BOTTOM": "ล่าง",
+    "DSTEXT_ALIGN_CUSTOM": "กำหนด",
+})
 
 LANGUAGE_SLOTS = [
     ("English (UK)", "English (UK)", 0xE1E1),
@@ -1508,7 +1601,7 @@ CAROUSEL_LAYOUT_DEFAULTS = {
     "LAUNCHER_VERT_NEXT_Y": 124,
     "LAUNCHER_VERT_NEXT_W": 48,
     "LAUNCHER_VERT_NEXT_H": 32,
-    "LAUNCHER_VERT_TITLE_X": 92,
+    "LAUNCHER_VERT_TITLE_X": 93,
     "LAUNCHER_VERT_TITLE_Y": 62,
     "LAUNCHER_VERT_TITLE_W": 141,
     "LAUNCHER_VERT_TITLE_H": 56,
@@ -1743,7 +1836,7 @@ class CustomiserApp(tk.Tk):
         ).pack(anchor="w", pady=(2, 0))
         version_block = ttk.Frame(header, style="Header.TFrame")
         version_block.pack(side="right", anchor="ne")
-        ttk.Label(version_block, text="DS Style Customiser v1.7", style="HeaderVersion.TLabel").pack(anchor="e")
+        ttk.Label(version_block, text="DS Style Customiser v1.8", style="HeaderVersion.TLabel").pack(anchor="e")
         ttk.Label(version_block, text="For DS Style v7.0", style="HeaderVersion.TLabel").pack(anchor="e", pady=(2, 0))
 
         self.notebook = ttk.Notebook(self)
@@ -2645,12 +2738,18 @@ class CustomiserApp(tk.Tk):
             if name in current_values:
                 layout_values[name] = current_values[name]
         layout_lines = "".join(f"#define {name} {value}\n" for name, value in layout_values.items())
+        vert_custom = any(layout_values.get(name) != LAYOUT_DEFAULTS.get(name) for name in (
+            "LAUNCHER_VERT_PREV_X", "LAUNCHER_VERT_NEXT_X"))
+        horz_custom = any(layout_values.get(name) != LAYOUT_DEFAULTS.get(name) for name in (
+            "LAUNCHER_HORZ_LEFT_Y", "LAUNCHER_HORZ_RIGHT_Y"))
         path.write_text(
             "#ifndef LAUNCHER_CUSTOMISER_CONFIG_H\n"
             "#define LAUNCHER_CUSTOMISER_CONFIG_H\n\n"
             f"#define LAUNCHER_BOOT_SOUND_ENABLED {boot_sound_enabled}\n"
             f"#define LAUNCHER_CUSTOM_THEME_DARK_STYLE {custom_theme_dark}\n\n"
-            f"#define LAUNCHER_THUMB_BORDER_ENABLED {thumb_border_enabled}\n\n"
+            f"#define LAUNCHER_THUMB_BORDER_ENABLED {thumb_border_enabled}\n"
+            f"#define LAUNCHER_VERT_SIDE_CUSTOM_ENABLED {1 if vert_custom else 0}\n"
+            f"#define LAUNCHER_HORZ_SIDE_CUSTOM_ENABLED {1 if horz_custom else 0}\n\n"
             f"{layout_lines}\n"
             "#endif\n",
             encoding="ascii",
@@ -3348,8 +3447,26 @@ class CustomiserApp(tk.Tk):
             "DSTEXT_SETTINGS_LOAD_STYLE": "\u52a0\u8f7d\u6837\u5f0f",
             "DSTEXT_SETTINGS_HIDE_SYSTEM": "\u9690\u85cf\u7cfb\u7edf",
             "DSTEXT_SETTINGS_LIST_FOLDERS": "\u6587\u4ef6\u5939\u5217\u8868",
+            "DSTEXT_SETTINGS_CLEAN_LIST": "\u6e05\u723d\u5217\u8868",
+            "DSTEXT_SETTINGS_BOOT_TO": "\u542f\u52a8\u5230",
+            "DSTEXT_BOOT_TO_START": "\u5f00\u59cb",
+            "DSTEXT_BOOT_TO_SD": "SD",
+            "DSTEXT_BOOT_TO_NOR": "NOR",
+            "DSTEXT_BOOT_TO_LAST_GAME": "\u6700\u8fd1\u6e38\u620f",
+            "DSTEXT_BOOT_TO_RECENTS": "\u6700\u8fd1",
+            "DSTEXT_BOOT_TO_FAVOURITES": "\u6536\u85cf",
             "DSTEXT_SETTINGS_ART_BORDER": "\u56fe\u50cf\u8fb9\u6846",
             "DSTEXT_SETTINGS_ROUNDED_CORNERS": "\u5706\u89d2",
+            "DSTEXT_ROUNDED_FULL": "\u5168\u90e8",
+            "DSTEXT_ROUNDED_NO_START": "\u65e0\u5f00\u59cb",
+            "DSTEXT_SETTINGS_VERTICAL_SIDE": "\u7eb5\u5411\u4fa7\u56fe",
+            "DSTEXT_SETTINGS_HORIZONTAL_SIDE": "\u6a2a\u5411\u4fa7\u56fe",
+            "DSTEXT_ALIGN_CENTER": "\u5c45\u4e2d",
+            "DSTEXT_ALIGN_LEFT": "\u5de6",
+            "DSTEXT_ALIGN_RIGHT": "\u53f3",
+            "DSTEXT_ALIGN_TOP": "\u4e0a",
+            "DSTEXT_ALIGN_BOTTOM": "\u4e0b",
+            "DSTEXT_ALIGN_CUSTOM": "\u81ea\u5b9a",
             "DSTEXT_BORDER_ACCENT": "\u5f3a\u8c03",
             "DSTEXT_BORDER_BLACK": "\u9ed1",
             "DSTEXT_BORDER_GREY": "\u7070",

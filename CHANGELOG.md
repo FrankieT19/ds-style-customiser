@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.8
+
+- Updated bundled source compatibility for DS Style v7.0.
+- Added support for the latest interface settings and launcher text.
+- Refreshed included source folders, templates and user guide.
+
 ## v1.7
 
 - Improved scaling and window sizing on high-resolution displays and smaller desktops.
