@@ -1,26 +1,66 @@
-DS STYLE CUSTOMISER
+[INTRO]
 
-For DS Style v7.0.
+Thank you for downloading DS Style Customiser v1.9.
 
-Open DS Style User Guide.pdf for complete setup, artwork, sound, project and building instructions.
+For DS Style v7.1.
 
+DS Style Customiser lets you create a personalised DS Style kernel while keeping the original source untouched.
 
-BEFORE YOU BEGIN
+#####################################################################################
 
-Install devkitPro in:
+[REQUIREMENTS]
+
+DS Style Customiser needs devkitPro installed at:
 C:\devkitPro
 
-Download devkitPro:
+Download devkitPro from:
 https://github.com/devkitPro/installer/releases
 
-Keep DS Style Customiser.exe, Templates and both supplied DS Style source folders together.
+GIMP is recommended for editing the included templates.
 
-Run DS Style Customiser.exe and create a project for your cartridge model.
-
-
-ARTWORK
-
-GIMP is recommended for editing the supplied XCF templates:
+Download GIMP from:
 https://www.gimp.org/downloads/
 
-Finished kernel files are created from the Build page.
+#####################################################################################
+
+[BASIC INSTRUCTIONS]
+
+1. Open the provided templates in GIMP.
+
+2. Place your background image on the layer below the UI elements.
+
+3. Edit the UI elements if you want to, but keep them in the same positions.
+
+4. Export your finished images as PNG, JPG, or BMP files.
+
+5. Open DS Style Customiser, create a project, and load your images.
+
+6. When you are finished, use the Build page to create your kernel file.
+
+7. Put the new kernel file on the root of your SD card and hold R as the cartridge boots.
+
+#####################################################################################
+
+[PROJECTS]
+
+Your edits are saved into project folders so you can return to them later.
+
+The customiser keeps the original DS Style source folders untouched.
+
+Choose the correct cartridge model when creating a project. The Omega Definitive Edition uses ezkernelnew.bin, while the original Omega uses ezkernel.bin.
+
+Use Import / Convert to bring an older project onto the current DS Style source, or to create a copy for the other cartridge model. The converted project keeps the original project untouched.
+
+When converting to the original Omega, any Omega DE-only Custom Theme images are preserved in the project but are not included in the original Omega build.
+
+#####################################################################################
+
+[NOTES]
+
+The Custom columns can add new options to the Theme and Colour settings.
+
+Sound files need to be WAV format. Trim silent sections from the beginning and end for best results.
+
+Use the recommended image sizes shown inside the customiser for best results.
+
+The included templates can be found in the Templates folder.

@@ -19,6 +19,9 @@ from PIL import Image, ImageDraw, ImageFont, ImageTk
 
 
 APP_NAME = "DS Style Customiser"
+CUSTOMISER_VERSION = "1.9"
+DS_STYLE_VERSION = "7.1"
+PROJECT_SCHEMA_VERSION = 2
 MODEL_DE = "omega_de"
 MODEL_ORIGINAL = "original_omega"
 MODEL_OPTIONS = [
@@ -101,6 +104,7 @@ TEXT_SECTIONS = [
         ("DSTEXT_SETTINGS_ROUNDED_CORNERS", "Round corners"),
         ("DSTEXT_SETTINGS_VERTICAL_SIDE", "Vertical side"),
         ("DSTEXT_SETTINGS_HORIZONTAL_SIDE", "Horz. side"),
+        ("DSTEXT_SETTINGS_LIST_ART", "List art"),
         ("DSTEXT_SETTINGS_SOUNDS", "Sounds"),
         ("DSTEXT_SETTINGS_LANGUAGE", "Language"),
         ("DSTEXT_SETTINGS_THEME", "Theme"),
@@ -173,6 +177,7 @@ TEXT_SECTIONS = [
         ("DSTEXT_VIEW_LIST", "List"),
         ("DSTEXT_VIEW_HORIZONTAL", "Horizontal"),
         ("DSTEXT_VIEW_VERTICAL", "Vertical"),
+        ("DSTEXT_VIEW_LIST_ART", "List + art"),
         ("DSTEXT_THUMB_TITLE", "Title"),
         ("DSTEXT_THUMB_BOX", "Box"),
         ("DSTEXT_ENGINE_FAST", "Fast"),
@@ -249,7 +254,7 @@ TEXT_SECTIONS = [
     ]),
 ]
 
-TEXT_DEFAULTS = {key: value for _seçtion, items in TEXT_SECTIONS for key, value in items}
+TEXT_DEFAULTS = {key: value for _section, items in TEXT_SECTIONS for key, value in items}
 
 TEXT_TRANSLATIONS = {
     "English (UK)": dict(TEXT_DEFAULTS),
@@ -1369,6 +1374,20 @@ MERGE_TEXT_SETTING_ADDITIONS({
     'Finnish': {'DSTEXT_SETTINGS_BOOT_TO': 'Kaynnista', 'DSTEXT_BOOT_TO_START': 'Aloitus', 'DSTEXT_BOOT_TO_SD': 'SD', 'DSTEXT_BOOT_TO_NOR': 'NOR', 'DSTEXT_BOOT_TO_LAST_GAME': 'Viime peli', 'DSTEXT_BOOT_TO_RECENTS': 'Viimeiset', 'DSTEXT_BOOT_TO_FAVOURITES': 'Suosikit'},
 })
 
+MERGE_TEXT_SETTING_ADDITIONS({
+    'English (UK)': {'DSTEXT_SETTINGS_LIST_ART': 'List art', 'DSTEXT_VIEW_LIST_ART': 'List + art'},
+    'English (US)': {'DSTEXT_SETTINGS_LIST_ART': 'List art', 'DSTEXT_VIEW_LIST_ART': 'List + art'},
+    'Spanish': {'DSTEXT_SETTINGS_LIST_ART': 'Arte en lista', 'DSTEXT_VIEW_LIST_ART': 'Lista + arte'},
+    'French': {'DSTEXT_SETTINGS_LIST_ART': 'Art en liste', 'DSTEXT_VIEW_LIST_ART': 'Liste + art'},
+    'Portuguese': {'DSTEXT_SETTINGS_LIST_ART': 'Arte na lista', 'DSTEXT_VIEW_LIST_ART': 'Lista + arte'},
+    'German': {'DSTEXT_SETTINGS_LIST_ART': 'Listenbild', 'DSTEXT_VIEW_LIST_ART': 'Liste + Bild'},
+    'Turkish': {'DSTEXT_SETTINGS_LIST_ART': 'Liste g\u00f6rseli', 'DSTEXT_VIEW_LIST_ART': 'Liste + g\u00f6rsel'},
+    'Italian': {'DSTEXT_SETTINGS_LIST_ART': 'Arte in lista', 'DSTEXT_VIEW_LIST_ART': 'Lista + arte'},
+    'Dutch': {'DSTEXT_SETTINGS_LIST_ART': 'Lijstafbeeld.', 'DSTEXT_VIEW_LIST_ART': 'Lijst + beeld'},
+    'Swedish': {'DSTEXT_SETTINGS_LIST_ART': 'Listbild', 'DSTEXT_VIEW_LIST_ART': 'Lista + bild'},
+    'Finnish': {'DSTEXT_SETTINGS_LIST_ART': 'Listakuva', 'DSTEXT_VIEW_LIST_ART': 'Lista + kuva'},
+})
+
 for _language, _values in TEXT_SETTING_ADDITIONS.items():
     TEXT_TRANSLATIONS.setdefault(_language, {}).update(_values)
 
@@ -1393,6 +1412,8 @@ THAI_TEXT_BAKED.update({
     "DSTEXT_ALIGN_TOP": "บน",
     "DSTEXT_ALIGN_BOTTOM": "ล่าง",
     "DSTEXT_ALIGN_CUSTOM": "กำหนด",
+    "DSTEXT_SETTINGS_LIST_ART": "ภาพรายการ",
+    "DSTEXT_VIEW_LIST_ART": "รายการ + ภาพ",
 })
 
 LANGUAGE_SLOTS = [
@@ -1645,6 +1666,280 @@ def clean_name(name: str) -> str:
     return cleaned or "My DS Style"
 
 
+def read_project_config(project_dir: Path) -> dict:
+    path = project_dir / CONFIG_NAME
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else {}
+    except (OSError, ValueError, TypeError):
+        return {}
+
+
+def source_version(source_dir: Path) -> str:
+    path = source_dir / "source" / "launcher_version.h"
+    if not path.exists():
+        return ""
+    match = re.search(
+        r'LAUNCHER_VERSION_TEXT\s+"v?([0-9]+(?:\.[0-9]+)*)"',
+        path.read_text(encoding="utf-8", errors="ignore"),
+    )
+    return match.group(1) if match else ""
+
+
+def find_project_source(selected_path: Path) -> Path | None:
+    selected_path = selected_path.resolve()
+
+    def is_source(path: Path) -> bool:
+        return (
+            path.is_dir()
+            and (path / "source").is_dir()
+            and (path / "Grit" / "Build Skin Files.ps1").is_file()
+        )
+
+    if is_source(selected_path):
+        return selected_path
+
+    preferred = [source for _key, _label, source, _output in MODEL_OPTIONS]
+    preferred.append("DS Style Source")
+    for name in preferred:
+        candidate = selected_path / name
+        if is_source(candidate):
+            return candidate
+
+    candidates = [child for child in selected_path.iterdir() if child.is_dir() and is_source(child)]
+    if len(candidates) == 1:
+        return candidates[0]
+    return None
+
+
+def detect_project_model(project_dir: Path, source_dir: Path) -> str:
+    config_model = read_project_config(project_dir).get("model")
+    if config_model in MODEL_LABELS:
+        return config_model
+
+    source_name = source_dir.name.lower()
+    if "original omega" in source_name:
+        return MODEL_ORIGINAL
+    if "omega de" in source_name or "definitive" in source_name:
+        return MODEL_DE
+
+    build_path = source_dir / "build.bat"
+    if build_path.exists():
+        build_text = build_path.read_text(encoding="utf-8", errors="ignore").lower()
+        if "ezkernelnew.bin" in build_text:
+            return MODEL_DE
+        if "ezkernel.bin" in build_text:
+            return MODEL_ORIGINAL
+
+    kernel_path = source_dir / "source" / "ezkernelnew.c"
+    if kernel_path.exists():
+        kernel_text = kernel_path.read_text(encoding="utf-8", errors="ignore")
+        if (
+            "Set_LED_control" in kernel_text
+            or re.search(r"launcher_settings_hardware_items\[\].*SETTINGS_MODE_B", kernel_text)
+        ):
+            return MODEL_DE
+    return MODEL_ORIGINAL
+
+
+def unique_project_name(projects_dir: Path, requested: str) -> str:
+    base = clean_name(requested)
+    candidate = base
+    number = 2
+    while (projects_dir / candidate).exists():
+        candidate = f"{base} {number}"
+        number += 1
+    return candidate
+
+
+def merge_customiser_config(old_path: Path, new_path: Path) -> int:
+    if not old_path.exists() or not new_path.exists():
+        return 0
+    old_text = old_path.read_text(encoding="utf-8", errors="ignore")
+    new_text = new_path.read_text(encoding="utf-8", errors="ignore")
+    old_defines = {
+        match.group(1): match.group(2).strip()
+        for match in re.finditer(r"^[ \t]*#define[ \t]+([A-Z][A-Z0-9_]+)[ \t]+([^\r\n]+)", old_text, re.MULTILINE)
+        if match.group(1) != "LAUNCHER_CUSTOMISER_CONFIG_H"
+    }
+    if not old_defines:
+        return 0
+
+    carried = 0
+    missing = []
+    for name, value in old_defines.items():
+        pattern = rf"(^[ \t]*#define[ \t]+{re.escape(name)}[ \t]+)[^\r\n]+"
+        if re.search(pattern, new_text, re.MULTILINE):
+            new_text = re.sub(pattern, rf"\g<1>{value}", new_text, flags=re.MULTILINE)
+        else:
+            missing.append(f"#define {name} {value}")
+        carried += 1
+    if missing:
+        insertion = "\n".join(missing) + "\n\n"
+        new_text = re.sub(r"\n#endif\s*$", f"\n{insertion}#endif\n", new_text)
+    new_path.write_text(new_text, encoding="utf-8")
+    return carried
+
+
+def merge_language_overrides(old_path: Path, new_path: Path) -> int:
+    if not old_path.exists():
+        return 0
+    try:
+        old_values = json.loads(old_path.read_text(encoding="utf-8"))
+        new_values = json.loads(new_path.read_text(encoding="utf-8")) if new_path.exists() else {}
+    except (OSError, ValueError, TypeError):
+        return 0
+    if not isinstance(old_values, dict) or not isinstance(new_values, dict):
+        return 0
+
+    carried = 0
+    for language, values in old_values.items():
+        if not isinstance(values, dict):
+            continue
+        target = new_values.setdefault(language, {})
+        if not isinstance(target, dict):
+            target = {}
+            new_values[language] = target
+        for key, value in values.items():
+            if isinstance(key, str) and isinstance(value, str):
+                target[key] = value
+                carried += 1
+    new_path.write_text(json.dumps(new_values, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    return carried
+
+
+def merge_skin_colours(old_path: Path, new_path: Path) -> int:
+    if not old_path.exists() or not new_path.exists():
+        return 0
+    old_text = old_path.read_text(encoding="utf-8", errors="ignore")
+    new_text = new_path.read_text(encoding="utf-8", errors="ignore")
+    theme_names = {folder for folder, _label in THEMES}
+    block_pattern = re.compile(
+        r'(?P<prefix>"(?P<theme>[^"]+)"\s*\{\s*return\s*@\{)(?P<body>.*?)(?P<suffix>\}\s*\})',
+        re.DOTALL,
+    )
+    old_blocks = {
+        match.group("theme"): match
+        for match in block_pattern.finditer(old_text)
+        if match.group("theme") in theme_names
+    }
+    carried = 0
+    for theme, old_match in old_blocks.items():
+        values = {
+            match.group(1): match.group(2)
+            for match in re.finditer(r'([A-Za-z][A-Za-z0-9]*)\s*=\s*"([^"]+)"', old_match.group("body"))
+        }
+        if not values:
+            continue
+        target_match = next(
+            (match for match in block_pattern.finditer(new_text) if match.group("theme") == theme),
+            None,
+        )
+        if target_match is None:
+            if theme != "custom_colour":
+                continue
+            insertion_point = re.search(r'(?m)^\s*"dark"\s*\{', new_text)
+            if not insertion_point:
+                continue
+            block = old_match.group(0).strip() + "\n        "
+            new_text = new_text[:insertion_point.start()] + "        " + block + new_text[insertion_point.start():]
+            carried += len(values)
+            continue
+
+        body = target_match.group("body")
+        for key, value in values.items():
+            value_pattern = rf'({re.escape(key)}\s*=\s*")[^"]+("\s*)'
+            if re.search(value_pattern, body):
+                body = re.sub(value_pattern, rf'\g<1>{value}\g<2>', body)
+            else:
+                body = body.rstrip() + f'; {key} = "{value}" '
+            carried += 1
+        new_text = new_text[:target_match.start("body")] + body + new_text[target_match.end("body"):]
+
+    new_path.write_text(new_text, encoding="utf-8")
+    return carried
+
+
+def migrate_project_customisations(old_source: Path, new_source: Path) -> dict:
+    report = {"images": 0, "sounds": 0, "config": 0, "text": 0, "colours": 0}
+    copied_images = set()
+    old_images = old_source / "images"
+    new_images = new_source / "images"
+    image_suffixes = {".bmp", ".png", ".jpg", ".jpeg", ".xcf"}
+    if old_images.exists():
+        for source_path in old_images.rglob("*"):
+            if not source_path.is_file() or source_path.suffix.lower() not in image_suffixes:
+                continue
+            relative = source_path.relative_to(old_images)
+            destination = new_images / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source_path, destination)
+            copied_images.add(relative.as_posix().lower())
+            report["images"] += 1
+
+    for folder in ("blank", "dark", "custom_theme"):
+        old_folder = old_images / folder
+        new_folder = new_images / folder
+        if not old_folder.exists():
+            continue
+        legacy_start = old_folder / "SET2.bmp"
+        if legacy_start.exists() and f"{folder}/start.bmp" not in copied_images:
+            new_folder.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(legacy_start, new_folder / "START.bmp")
+            report["images"] += 1
+        legacy_sd = old_folder / "SD.bmp"
+        if legacy_sd.exists():
+            for filename in ("SD_LIST.bmp", "SD_HORIZONTAL.bmp", "SD_VERTICAL.bmp"):
+                key = f"{folder}/{filename}".lower()
+                if key not in copied_images:
+                    new_folder.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(legacy_sd, new_folder / filename)
+                    report["images"] += 1
+
+    for folder, _label in THEMES:
+        if folder == "dark":
+            continue
+        old_folder = old_images / folder
+        topbar = new_images / folder / f"{folder}.bmp"
+        if not old_folder.exists() or topbar.exists() and f"{folder}/{folder}.bmp" in copied_images:
+            continue
+        legacy_sd = old_folder / "SD.bmp"
+        if legacy_sd.exists():
+            try:
+                with Image.open(legacy_sd) as image:
+                    cropped = image.convert("RGB").crop((0, 0, min(240, image.width), min(19, image.height)))
+                    if cropped.size == (240, 19):
+                        topbar.parent.mkdir(parents=True, exist_ok=True)
+                        cropped.save(topbar, "BMP")
+                        report["images"] += 1
+            except OSError:
+                pass
+
+    old_source_dir = old_source / "source"
+    new_source_dir = new_source / "source"
+    for filename, _label, _description, _limit in SOUND_ASSETS:
+        source_path = old_source_dir / filename
+        if source_path.exists():
+            shutil.copy2(source_path, new_source_dir / filename)
+            report["sounds"] += 1
+
+    report["config"] = merge_customiser_config(
+        old_source_dir / "launcher_customiser_config.h",
+        new_source_dir / "launcher_customiser_config.h",
+    )
+    report["text"] = merge_language_overrides(
+        old_source_dir / TEXT_OVERRIDES_NAME,
+        new_source_dir / TEXT_OVERRIDES_NAME,
+    )
+    report["colours"] = merge_skin_colours(
+        old_source / "Grit" / "Build Skin Files.ps1",
+        new_source / "Grit" / "Build Skin Files.ps1",
+    )
+    return report
+
+
 def ignore_template_files(_dir, names):
     ignored = {
         "build",
@@ -1701,7 +1996,7 @@ class CustomiserApp(tk.Tk):
         self.colour_vars = {}
         self.colour_hex_vars = {}
         self.text_vars = {}
-        self.text_seçtion_frames = {}
+        self.text_section_frames = {}
         self.text_all_values = {}
         self.active_text_language = "English (UK)"
         self.text_language_var = tk.StringVar(value=self.active_text_language)
@@ -1836,8 +2131,8 @@ class CustomiserApp(tk.Tk):
         ).pack(anchor="w", pady=(2, 0))
         version_block = ttk.Frame(header, style="Header.TFrame")
         version_block.pack(side="right", anchor="ne")
-        ttk.Label(version_block, text="DS Style Customiser v1.8", style="HeaderVersion.TLabel").pack(anchor="e")
-        ttk.Label(version_block, text="For DS Style v7.0", style="HeaderVersion.TLabel").pack(anchor="e", pady=(2, 0))
+        ttk.Label(version_block, text=f"DS Style Customiser v{CUSTOMISER_VERSION}", style="HeaderVersion.TLabel").pack(anchor="e")
+        ttk.Label(version_block, text=f"For DS Style v{DS_STYLE_VERSION}", style="HeaderVersion.TLabel").pack(anchor="e", pady=(2, 0))
 
         self.notebook = ttk.Notebook(self)
         self.notebook.pack(fill="both", expand=True, padx=20, pady=(0, 10))
@@ -1907,6 +2202,7 @@ class CustomiserApp(tk.Tk):
         self.project_combo.pack(side="left", padx=12)
         self.project_combo.bind("<<ComboboxSelected>>", lambda _e: self.open_project(self.project_var.get()))
         ttk.Button(row, text="New Project", command=self.new_project, style="Accent.TButton").pack(side="left", padx=4)
+        ttk.Button(row, text="Import / Convert", command=self.import_convert_project).pack(side="left", padx=4)
         ttk.Button(row, text="Open Folder", command=self.open_project_folder).pack(side="left", padx=4)
 
         info = ttk.Frame(frame, style="Panel.TFrame")
@@ -2147,7 +2443,7 @@ class CustomiserApp(tk.Tk):
         ttk.Label(outer, text="Sounds", style="Section.TLabel").pack(anchor="w")
         ttk.Label(
             outer,
-            text=f"WAV files are converted to {SOUND_SAMPLE_RATE} Hz mono signed 8-bit audio. UI sounds are capped at {UI_SOUND_MAX_SECONDS:.2f} seçonds; the boot sound is capped at {BOOT_SOUND_MAX_SECONDS:.2f} seçonds.",
+            text=f"WAV files are converted to {SOUND_SAMPLE_RATE} Hz mono signed 8-bit audio. UI sounds are capped at {UI_SOUND_MAX_SECONDS:.2f} seconds; the boot sound is capped at {BOOT_SOUND_MAX_SECONDS:.2f} seconds.",
             style="Muted.TLabel",
             wraplength=920,
         ).pack(anchor="w", pady=(2, 12))
@@ -2244,11 +2540,11 @@ class CustomiserApp(tk.Tk):
         canvas.bind("<Enter>", lambda _e: (canvas.bind_all("<MouseWheel>", _wheel), canvas.bind_all("<Button-4>", _wheel), canvas.bind_all("<Button-5>", _wheel)))
         canvas.bind("<Leave>", lambda _e: (canvas.unbind_all("<MouseWheel>"), canvas.unbind_all("<Button-4>"), canvas.unbind_all("<Button-5>")))
 
-        for seçtion, items in TEXT_SECTIONS:
+        for section, items in TEXT_SECTIONS:
             holder = ttk.Frame(inner, style="Panel.TFrame")
             holder.pack(fill="x", pady=(0, 8))
             content = ttk.Frame(holder, style="Panel.TFrame")
-            expanded = tk.BooleanVar(value=(seçtion in ("Start", "Settings")))
+            expanded = tk.BooleanVar(value=(section in ("Start", "Settings")))
 
             def toggle(frame=content, var=expanded):
                 if var.get():
@@ -2256,9 +2552,9 @@ class CustomiserApp(tk.Tk):
                 else:
                     frame.pack_forget()
 
-            header = ttk.Checkbutton(holder, text=seçtion, variable=expanded, command=toggle)
+            header = ttk.Checkbutton(holder, text=section, variable=expanded, command=toggle)
             header.pack(anchor="w")
-            self.text_seçtion_frames[seçtion] = content
+            self.text_section_frames[section] = content
 
             for key, default in items:
                 row = ttk.Frame(content, style="Panel.TFrame")
@@ -2624,23 +2920,168 @@ class CustomiserApp(tk.Tk):
         self.projects_dir.mkdir(parents=True, exist_ok=True)
         project.mkdir(parents=True)
         shutil.copytree(self.template_dir, source, ignore=ignore_template_files)
-        self.write_project_config(project, {"name": name, "model": self.selected_model_key(), "created": time.time()})
+        self.write_project_config(project, {
+            "name": name,
+            "model": self.selected_model_key(),
+            "created": time.time(),
+        })
         self.refresh_projects()
         self.project_var.set(name)
         self.open_project(name)
 
     def write_project_config(self, project, data):
+        data = dict(data)
+        data.setdefault("schema_version", PROJECT_SCHEMA_VERSION)
+        data.setdefault("template_version", DS_STYLE_VERSION)
         (project / CONFIG_NAME).write_text(json.dumps(data, indent=2), encoding="utf-8")
 
-    def open_project(self, name):
+    def _create_converted_project(self, old_project: Path, old_source: Path, target_model: str, requested_name: str):
+        target_template = self.base_dir / MODEL_SOURCES[target_model]
+        target_projects = self.projects_root / MODEL_LABELS[target_model]
+        if not target_template.exists():
+            messagebox.showerror(APP_NAME, f"Could not find {target_template.name} beside the customiser.")
+            return False
+
+        old_model = detect_project_model(old_project, old_source)
+        old_version = source_version(old_source) or "Unknown"
+        target_projects.mkdir(parents=True, exist_ok=True)
+        name = unique_project_name(target_projects, requested_name)
+        project = target_projects / name
+        source = project / target_template.name
+
+        self.status_var.set("Creating converted project copy...")
+        self.update_idletasks()
+        try:
+            project.mkdir(parents=True)
+            shutil.copytree(target_template, source, ignore=ignore_template_files)
+            report = migrate_project_customisations(old_source, source)
+            self.write_project_config(project, {
+                "name": name,
+                "model": target_model,
+                "created": time.time(),
+                "converted_from_model": old_model,
+                "converted_from_version": old_version,
+                "converted_from": str(old_project),
+            })
+        except Exception as exc:
+            self.status_var.set("Project conversion failed.")
+            messagebox.showerror(
+                APP_NAME,
+                f"Project conversion failed. The original project was not changed.\n\n{exc}\n\n"
+                f"Any incomplete copy has been left at:\n{project}",
+            )
+            return False
+
+        self.model_var.set(MODEL_LABELS[target_model])
+        self.refresh_model_paths()
+        self.project_dir = None
+        self.project_source = None
+        self.project_var.set(name)
+        self.refresh_projects()
+        self.open_project(name, offer_update=False)
+
+        preserved = (
+            f"Preserved {report['images']} image files, {report['sounds']} sounds, "
+            f"{report['colours']} colour values, {report['config']} layout/settings values, "
+            f"and {report['text']} text values."
+        )
+        model_note = ""
+        if target_model == MODEL_ORIGINAL and (source / "images" / "custom_theme").exists():
+            model_note = (
+                "\n\nCustom Theme images were preserved in the project, but Original Omega builds "
+                "do not include that additional background set."
+            )
+        messagebox.showinfo(
+            APP_NAME,
+            f"Created {name} for {MODEL_LABELS[target_model]}.\n\n{preserved}{model_note}\n\n"
+            "The original project was not changed.",
+        )
+        return True
+
+    def import_convert_project(self):
+        initial_dir = self.last_file_dialog_dir if self.last_file_dialog_dir.exists() else self.base_dir
+        selected = filedialog.askdirectory(
+            parent=self,
+            title="Choose a DS Style project or project source folder",
+            initialdir=str(initial_dir),
+            mustexist=True,
+        )
+        if not selected:
+            return
+        selected_path = Path(selected).resolve()
+        self.last_file_dialog_dir = selected_path.parent
+        try:
+            old_source = find_project_source(selected_path)
+        except OSError as exc:
+            messagebox.showerror(APP_NAME, f"Could not inspect that folder.\n\n{exc}")
+            return
+        if old_source is None:
+            messagebox.showerror(
+                APP_NAME,
+                "That folder does not contain a DS Style project source.\n\n"
+                "Choose either the project folder or its DS Style Source folder.",
+            )
+            return
+
+        old_project = old_source.parent if (old_source.parent / CONFIG_NAME).exists() else selected_path
+        if old_project == old_source:
+            old_project = old_source.parent
+        old_model = detect_project_model(old_project, old_source)
+        target_model = self.selected_model_key()
+        base_name = old_project.name
+        if base_name in MODEL_SOURCES.values() or base_name == "DS Style Source":
+            base_name = old_project.parent.name
+        if old_model == target_model:
+            suggested = f"{base_name} v{DS_STYLE_VERSION}"
+        else:
+            suggested = f"{base_name} - {MODEL_LABELS[target_model]}"
+        requested = simpledialog.askstring(
+            APP_NAME,
+            f"Name for the new {MODEL_LABELS[target_model]} project:",
+            initialvalue=clean_name(suggested),
+            parent=self,
+        )
+        if not requested:
+            return
+        if not messagebox.askyesno(
+            APP_NAME,
+            f"Create an updated {MODEL_LABELS[target_model]} copy from this project?\n\n"
+            f"Source: {MODEL_LABELS[old_model]} / DS Style v{source_version(old_source) or 'unknown'}\n"
+            f"New project: {clean_name(requested)}\n\nThe original project will not be changed.",
+        ):
+            return
+        self._create_converted_project(old_project, old_source, target_model, requested)
+
+    def open_project(self, name, offer_update=True):
         if not name:
             return
         self.refresh_model_paths()
         project = self.projects_dir / name
         source = project / self.template_dir.name
         if not source.exists():
-            messagebox.showerror(APP_NAME, "This project is missing its DS Style Source copy.")
-            return
+            try:
+                source = find_project_source(project)
+            except OSError:
+                source = None
+            if source is None:
+                messagebox.showerror(APP_NAME, "This project is missing its DS Style Source copy.")
+                return
+        project_version = source_version(source)
+        if offer_update and project_version != DS_STYLE_VERSION:
+            update = messagebox.askyesno(
+                APP_NAME,
+                f"This project uses DS Style v{project_version or 'an older format'}.\n\n"
+                f"Create an updated v{DS_STYLE_VERSION} copy before opening it? "
+                "Your existing project will remain untouched.",
+            )
+            if update:
+                self._create_converted_project(
+                    project,
+                    source,
+                    self.selected_model_key(),
+                    f"{name} v{DS_STYLE_VERSION}",
+                )
+                return
         self.project_dir = project
         self.project_source = source
         self.project_var.set(name)
@@ -3461,12 +3902,14 @@ class CustomiserApp(tk.Tk):
             "DSTEXT_ROUNDED_NO_START": "\u65e0\u5f00\u59cb",
             "DSTEXT_SETTINGS_VERTICAL_SIDE": "\u7eb5\u5411\u4fa7\u56fe",
             "DSTEXT_SETTINGS_HORIZONTAL_SIDE": "\u6a2a\u5411\u4fa7\u56fe",
+            "DSTEXT_SETTINGS_LIST_ART": "\u5217\u8868\u56fe\u7247",
             "DSTEXT_ALIGN_CENTER": "\u5c45\u4e2d",
             "DSTEXT_ALIGN_LEFT": "\u5de6",
             "DSTEXT_ALIGN_RIGHT": "\u53f3",
             "DSTEXT_ALIGN_TOP": "\u4e0a",
             "DSTEXT_ALIGN_BOTTOM": "\u4e0b",
             "DSTEXT_ALIGN_CUSTOM": "\u81ea\u5b9a",
+            "DSTEXT_VIEW_LIST_ART": "\u5217\u8868 + \u56fe\u7247",
             "DSTEXT_BORDER_ACCENT": "\u5f3a\u8c03",
             "DSTEXT_BORDER_BLACK": "\u9ed1",
             "DSTEXT_BORDER_GREY": "\u7070",
@@ -3622,7 +4065,7 @@ class CustomiserApp(tk.Tk):
             text=f"{label}\n{description}\nCurrent: {duration}\nLimit: {limit:.2f}s\nFormat: WAV"
         )
 
-    def convert_wav_to_raw(self, src: Path, max_seçonds):
+    def convert_wav_to_raw(self, src: Path, max_seconds):
         with wave.open(str(src), "rb") as wav_file:
             channels = wav_file.getnchannels()
             width = wav_file.getsampwidth()
@@ -3636,7 +4079,7 @@ class CustomiserApp(tk.Tk):
         input_frames = len(frames) // frame_size
         if input_frames <= 0:
             return b""
-        max_samples = int(SOUND_SAMPLE_RATE * max_seçonds)
+        max_samples = int(SOUND_SAMPLE_RATE * max_seconds)
         output_frames = min(max_samples, int(input_frames * SOUND_SAMPLE_RATE / rate) if rate else 0)
 
         def read_channel(frame_index, channel):
@@ -4316,7 +4759,7 @@ class CustomiserApp(tk.Tk):
                 f"{message}\n\nBuild without the incomplete custom option?"
             )
             if not skip:
-                self.status_var.set("Build cancelled. Finish the custom seçtion or choose Skip custom.")
+                self.status_var.set("Build cancelled. Finish the custom section or choose Skip custom.")
                 return
         ok, msg = self.devkit_status()
         if not ok:

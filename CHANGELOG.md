@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.9
+
+- Added Import / Convert for bringing older projects onto the current DS Style source.
+- Added non-destructive conversion between Original Omega and Omega Definitive Edition projects.
+- Preserved supported artwork, colours, sounds, text and layout choices during conversion.
+- Updated the bundled sources, templates and user guide for DS Style v7.1.
+
 ## v1.8
 
 - Updated bundled source compatibility for DS Style v7.0.
