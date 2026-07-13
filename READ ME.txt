@@ -51,13 +51,13 @@ Choose the correct cartridge model when creating a project. The Omega Definitive
 
 Use Import / Convert to bring an older project onto the current DS Style source, or to create a copy for the other cartridge model. The converted project keeps the original project untouched.
 
-When converting to the original Omega, any Omega DE-only Custom Theme images are preserved in the project but are not included in the original Omega build.
+When converting to the original Omega, separate Custom Theme and Custom Colour assets are preserved in the project but are not included in the original Omega build. Edit one of the built-in colours and its top bar and icons instead.
 
 #####################################################################################
 
 [NOTES]
 
-The Custom columns can add new options to the Theme and Colour settings.
+The Custom columns add new Theme and Colour options to Omega Definitive Edition builds. The original Omega has a smaller kernel limit, so customise one of its built-in colour slots instead.
 
 Sound files need to be WAV format. Trim silent sections from the beginning and end for best results.
 

@@ -19,6 +19,8 @@ Visit the [DS Style homepage](https://frankiet19.github.io/omega-de-ds-style-ker
 - Custom language text and preset translations
 - Kernel building through devkitPro
 
+The OMEGA Definitive Edition supports separate Custom Theme and Custom Colour slots. The original OMEGA has a smaller kernel size limit, so its builds customise one of the existing colour slots instead.
+
 ## Download and History
 
 - [Download the latest DS Style Customiser release](https://github.com/FrankieT19/ds-style-customiser/releases/latest)

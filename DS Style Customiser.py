@@ -2018,6 +2018,9 @@ class CustomiserApp(tk.Tk):
         self.layout_preview_theme_vars = {}
         self.layout_preview_colour_vars = {}
         self.layout_preview_thumb_vars = {}
+        self.layout_preview_theme_combos = {}
+        self.layout_preview_colour_combos = {}
+        self.colour_theme_choices = list(COLOUR_THEME_CHOICES)
         self.layout_confirm_var = tk.StringVar(value="")
         self.thumbnail_border_var = tk.BooleanVar(value=False)
         self.start_preview_focus = "last"
@@ -2224,7 +2227,7 @@ class CustomiserApp(tk.Tk):
         ttk.Label(left, text="Theme", style="Section.TLabel").pack(anchor="w", pady=(0, 8))
         self.theme_list = tk.Listbox(left, width=22, height=22, activestyle="none", exportselection=False, font=("Segoe UI", 10), bg="#101a29", fg="#edf4fb", selectbackground="#2f6fed", selectforeground="#ffffff", relief="flat", highlightthickness=0)
         self.theme_list.pack(fill="both", expand=True)
-        for _folder, name in COLOUR_THEME_CHOICES:
+        for _folder, name in self.colour_theme_choices:
             self.theme_list.insert("end", name)
         self.theme_list.selection_set(0)
         self.theme_list.bind("<<ListboxSelect>>", self.on_theme_selected)
@@ -2370,9 +2373,9 @@ class CustomiserApp(tk.Tk):
         self.colour_assets_frame = colour
         ttk.Label(colour, text="Colour assets", style="Section.TLabel").pack(anchor="w")
         self.image_theme_var = tk.StringVar(value=THEMES[0][1])
-        combo = ttk.Combobox(colour, textvariable=self.image_theme_var, values=[name for _folder, name in THEMES if _folder != "dark"], state="readonly", width=16, font=("Segoe UI", 10))
-        combo.pack(fill="x", pady=(4, 8))
-        combo.bind("<<ComboboxSelected>>", self.on_image_theme_selected)
+        self.image_theme_combo = ttk.Combobox(colour, textvariable=self.image_theme_var, values=[name for _folder, name in THEMES if _folder != "dark"], state="readonly", width=16, font=("Segoe UI", 10))
+        self.image_theme_combo.pack(fill="x", pady=(4, 8))
+        self.image_theme_combo.bind("<<ComboboxSelected>>", self.on_image_theme_selected)
         self.colour_tree = self._asset_tree(colour, COLOUR_ASSETS, "colour")
 
         lists.columnconfigure(0, weight=1, minsize=190, uniform="screen_asset_lists")
@@ -2671,6 +2674,8 @@ class CustomiserApp(tk.Tk):
         theme.pack(side="left", padx=(0, 6))
         colour = ttk.Combobox(row, textvariable=colour_var, values=[label for folder, label in THEMES if folder != "dark"], state="readonly", width=13, font=("Segoe UI", 10))
         colour.pack(side="left", padx=(0, 6))
+        self.layout_preview_theme_combos[name] = theme
+        self.layout_preview_colour_combos[name] = colour
         thumbs = ttk.Combobox(row, textvariable=thumb_var, values=["Title 120 x 80", "Box 80 x 80"], state="readonly", width=13, font=("Segoe UI", 10))
         thumbs.pack(side="left", padx=(0, 8))
         ttk.Checkbutton(row, text="Thumbnail border", variable=self.thumbnail_border_var, command=self.refresh_all_layout_previews).pack(side="left")
@@ -2848,10 +2853,10 @@ class CustomiserApp(tk.Tk):
         self.project_source = None
         self.project_var.set("")
         self.refresh_projects()
-        self.refresh_model_specific_ui()
 
     def refresh_model_specific_ui(self):
         is_original = self.selected_model_key() == MODEL_ORIGINAL
+        self.refresh_model_colour_choices()
         if hasattr(self, "custom_theme_assets_frame"):
             if is_original:
                 self.custom_theme_assets_frame.grid_remove()
@@ -2865,8 +2870,50 @@ class CustomiserApp(tk.Tk):
                 if hasattr(self, "colour_assets_frame"):
                     self.colour_assets_frame.grid(row=0, column=3, sticky="nsew")
 
+    def available_colour_theme_choices(self):
+        choices = list(COLOUR_THEME_CHOICES)
+        if self.selected_model_key() == MODEL_ORIGINAL:
+            choices = [choice for choice in choices if choice[0] != "custom_colour"]
+        return choices
+
+    def refresh_model_colour_choices(self):
+        choices = self.available_colour_theme_choices()
+        current_folder = choices[0][0]
+        if hasattr(self, "theme_list"):
+            selected = self.theme_list.curselection()
+            if selected and selected[0] < len(self.colour_theme_choices):
+                current_folder = self.colour_theme_choices[selected[0]][0]
+            if current_folder not in dict(choices):
+                current_folder = choices[0][0]
+            self.colour_theme_choices = choices
+            self.theme_list.delete(0, "end")
+            for _folder, label in choices:
+                self.theme_list.insert("end", label)
+            selected_index = next((index for index, (folder, _label) in enumerate(choices) if folder == current_folder), 0)
+            self.theme_list.selection_set(selected_index)
+            self.theme_list.activate(selected_index)
+        else:
+            self.colour_theme_choices = choices
+
+        colour_labels = [label for _folder, label in choices]
+        if hasattr(self, "image_theme_combo"):
+            self.image_theme_combo["values"] = colour_labels
+            if self.image_theme_var.get() not in colour_labels:
+                self.image_theme_var.set(colour_labels[0])
+
+        preview_themes = ["Light", "Dark"] if self.selected_model_key() == MODEL_ORIGINAL else ["Light", "Dark", "Custom"]
+        for name, combo in self.layout_preview_theme_combos.items():
+            combo["values"] = preview_themes
+            if self.layout_preview_theme_vars[name].get() not in preview_themes:
+                self.layout_preview_theme_vars[name].set("Light")
+        for name, combo in self.layout_preview_colour_combos.items():
+            combo["values"] = colour_labels
+            if self.layout_preview_colour_vars[name].get() not in colour_labels:
+                self.layout_preview_colour_vars[name].set(colour_labels[0])
+
     def refresh_projects(self):
         self.refresh_model_paths()
+        self.refresh_model_specific_ui()
         projects = sorted([p.name for p in self.projects_dir.iterdir() if p.is_dir()]) if self.projects_dir.exists() else []
         self.project_combo["values"] = projects
         if projects and not self.project_var.get():
@@ -2874,7 +2921,6 @@ class CustomiserApp(tk.Tk):
             self.open_project(projects[0])
         else:
             self.refresh_status_labels()
-        self.refresh_model_specific_ui()
 
     def refresh_status_labels(self):
         self.template_label.config(text=f"Template source: {self.template_dir}")
@@ -2986,10 +3032,16 @@ class CustomiserApp(tk.Tk):
             f"and {report['text']} text values."
         )
         model_note = ""
+        excluded_custom_slots = []
         if target_model == MODEL_ORIGINAL and (source / "images" / "custom_theme").exists():
+            excluded_custom_slots.append("Custom Theme")
+        if target_model == MODEL_ORIGINAL and (source / "images" / "custom_colour").exists():
+            excluded_custom_slots.append("Custom Colour")
+        if excluded_custom_slots:
             model_note = (
-                "\n\nCustom Theme images were preserved in the project, but Original Omega builds "
-                "do not include that additional background set."
+                f"\n\n{' and '.join(excluded_custom_slots)} assets were preserved in the project, "
+                "but Original Omega builds do not include separate custom slots. Edit a built-in "
+                "colour and its assets instead."
             )
         messagebox.showinfo(
             APP_NAME,
@@ -3109,7 +3161,9 @@ class CustomiserApp(tk.Tk):
     def selected_theme_folder(self):
         selection = self.theme_list.curselection()
         index = selection[0] if selection else 0
-        return COLOUR_THEME_CHOICES[index][0]
+        if index >= len(self.colour_theme_choices):
+            index = 0
+        return self.colour_theme_choices[index][0]
 
     def on_theme_selected(self, _event=None):
         self.colour_confirm_var.set("")
@@ -4722,7 +4776,7 @@ class CustomiserApp(tk.Tk):
 
         colour_codes = self.colour_entry_exists("custom_colour")
         colour_present = colour_codes or any((self.project_source / rel).exists() for rel, _label in custom_colour_assets)
-        if colour_present:
+        if colour_present and self.selected_model_key() != MODEL_ORIGINAL:
             missing = [label for rel, label in custom_colour_assets if not (self.project_source / rel).exists()]
             if not colour_codes:
                 missing.insert(0, "Custom colour codes")
@@ -4791,21 +4845,33 @@ class CustomiserApp(tk.Tk):
             messagebox.showerror(APP_NAME, message)
 
     def _build_worker(self):
-        disabled_custom_theme = None
+        disabled_custom_folders = []
         try:
             self.log("Starting build...")
             if self.selected_model_key() == MODEL_ORIGINAL:
-                custom_theme = self.project_source / "images" / "custom_theme"
-                if custom_theme.exists():
-                    disabled_custom_theme = custom_theme.with_name("__custom_theme_disabled_for_original__")
-                    if disabled_custom_theme.exists():
-                        shutil.rmtree(disabled_custom_theme)
-                    custom_theme.rename(disabled_custom_theme)
+                for folder_name in ("custom_theme", "custom_colour"):
+                    custom_folder = self.project_source / "images" / folder_name
+                    disabled_folder = custom_folder.with_name(f"__{folder_name}_disabled_for_original__")
+                    if disabled_folder.exists():
+                        if custom_folder.exists():
+                            raise RuntimeError(
+                                f"Both {custom_folder.name} and its temporary build copy exist. "
+                                "Close the Customiser and keep the folder containing your latest assets."
+                            )
+                        disabled_folder.rename(custom_folder)
+                    if custom_folder.exists():
+                        custom_folder.rename(disabled_folder)
+                        disabled_custom_folders.append((custom_folder, disabled_folder))
             ps = r"C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe"
             skin_script = self.project_source / "Grit" / "Build Skin Files.ps1"
             code = run_process([ps, "-ExecutionPolicy", "Bypass", "-File", str(skin_script)], self.project_source, self.log)
             if code != 0:
                 raise RuntimeError("Skin build failed.")
+            if self.selected_model_key() == MODEL_ORIGINAL:
+                asset_header = self.project_source / "source" / "launcher_theme_assets.h"
+                asset_text = asset_header.read_text(encoding="utf-8", errors="ignore") if asset_header.exists() else ""
+                if "#define LAUNCHER_CUSTOM_THEME_ENABLED 0" not in asset_text or '{ "Custom",' in asset_text:
+                    raise RuntimeError("Original Omega build still contains a separate custom asset slot.")
 
             build_command = (
                 f"& 'C:\\Windows\\System32\\subst.exe' X: /D; "
@@ -4825,6 +4891,11 @@ class CustomiserApp(tk.Tk):
             built = self.project_source / "x.gba"
             if not built.exists():
                 raise RuntimeError("Build finished, but x.gba was not produced.")
+            if self.selected_model_key() == MODEL_ORIGINAL and built.stat().st_size > 0x200000:
+                raise RuntimeError(
+                    "The Original Omega kernel exceeds its 2 MB limit. Edit an existing colour slot "
+                    "instead of adding a separate custom slot."
+                )
             output = self.base_dir / self.selected_output_name()
             shutil.copy2(built, output)
             self.log(f"Output: {output}")
@@ -4833,10 +4904,9 @@ class CustomiserApp(tk.Tk):
             self.log(f"ERROR: {exc}")
             self.after(0, lambda e=str(exc): self.finish_build(False, e))
         finally:
-            if disabled_custom_theme is not None and disabled_custom_theme.exists():
-                custom_theme = disabled_custom_theme.with_name("custom_theme")
-                if not custom_theme.exists():
-                    disabled_custom_theme.rename(custom_theme)
+            for custom_folder, disabled_folder in reversed(disabled_custom_folders):
+                if disabled_folder.exists() and not custom_folder.exists():
+                    disabled_folder.rename(custom_folder)
 
 
 if __name__ == "__main__":
