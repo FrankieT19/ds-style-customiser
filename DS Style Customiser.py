@@ -20,7 +20,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageTk
 
 APP_NAME = "DS Style Customiser"
 CUSTOMISER_VERSION = "1.9"
-DS_STYLE_VERSION = "7.1"
+DS_STYLE_VERSION = "7.2"
 PROJECT_SCHEMA_VERSION = 2
 MODEL_DE = "omega_de"
 MODEL_ORIGINAL = "original_omega"
