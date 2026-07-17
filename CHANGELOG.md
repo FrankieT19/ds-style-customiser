@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.0
+
+- Added an option to use each screen background's upper 19 pixels in place of a separate top-bar image.
+- Updated the layout previews to follow the selected top-bar mode.
+- Kept existing projects compatible, with separate top-bar images remaining the default.
+
 ## v1.9
 
 - Added Import / Convert for bringing older projects onto the current DS Style source.

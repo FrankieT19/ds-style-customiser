@@ -15,6 +15,7 @@ Visit the [DS Style homepage](https://frankiet19.github.io/omega-de-ds-style-ker
 - Conversion between Original Omega and Omega Definitive Edition project copies
 - Support for EZ-FLASH OMEGA and OMEGA Definitive Edition builds
 - Theme, colour, image, sound, and interface-text customisation
+- Optional full-screen backgrounds in place of separate top-bar images
 - Start-screen and thumbnail-view layout editors with previews
 - Custom language text and preset translations
 - Kernel building through devkitPro

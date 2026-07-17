@@ -1,6 +1,6 @@
 [INTRO]
 
-Thank you for downloading DS Style Customiser v1.9.
+Thank you for downloading DS Style Customiser v2.0.
 
 For DS Style v7.2.
 
@@ -38,6 +38,16 @@ https://www.gimp.org/downloads/
 6. When you are finished, use the Build page to create your kernel file.
 
 7. Put the new kernel file on the root of your SD card and hold R as the cartridge boots.
+
+#####################################################################################
+
+[TOP BAR]
+
+The Images page offers two ways to handle the top 19 pixels of each screen:
+
+Separate image keeps the standard DS Style layout and places the selected top bar over each background.
+
+Use screen background displays the upper 19 pixels of each 240 x 160 background instead. Separate top bar images are ignored, allowing each screen to use one continuous full-screen design.
 
 #####################################################################################
 

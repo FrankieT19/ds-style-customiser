@@ -19,7 +19,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageTk
 
 
 APP_NAME = "DS Style Customiser"
-CUSTOMISER_VERSION = "1.9"
+CUSTOMISER_VERSION = "2.0"
 DS_STYLE_VERSION = "7.2"
 PROJECT_SCHEMA_VERSION = 2
 MODEL_DE = "omega_de"
@@ -2023,6 +2023,7 @@ class CustomiserApp(tk.Tk):
         self.colour_theme_choices = list(COLOUR_THEME_CHOICES)
         self.layout_confirm_var = tk.StringVar(value="")
         self.thumbnail_border_var = tk.BooleanVar(value=False)
+        self.top_bar_mode_var = tk.StringVar(value="Separate image")
         self.start_preview_focus = "last"
         self.preview_font_cache = {}
         self.updating_hex = False
@@ -2339,12 +2340,27 @@ class CustomiserApp(tk.Tk):
         self.asset_trees = []
         self.selected_asset = None
 
-        ttk.Label(
+        self.image_info_label = ttk.Label(
             outer,
             text="Top bars are placed over the light or dark backgrounds, obscuring the top 19 pixels of each image. PNG, BMP, and JPG accepted.",
             style="Muted.TLabel",
             wraplength=900,
-        ).pack(anchor="w", pady=(0, 8))
+        )
+        self.image_info_label.pack(anchor="w", pady=(0, 8))
+
+        top_bar_options = ttk.Frame(outer, style="Panel.TFrame")
+        top_bar_options.pack(fill="x", pady=(0, 10))
+        ttk.Label(top_bar_options, text="Top bar", style="Section.TLabel").pack(side="left", padx=(0, 10))
+        self.top_bar_mode_combo = ttk.Combobox(
+            top_bar_options,
+            textvariable=self.top_bar_mode_var,
+            values=["Separate image", "Use screen background"],
+            state="readonly",
+            width=24,
+            font=("Segoe UI", 10),
+        )
+        self.top_bar_mode_combo.pack(side="left")
+        self.top_bar_mode_combo.bind("<<ComboboxSelected>>", lambda _event: self.save_top_bar_setting())
 
         content = ttk.Frame(outer, style="Panel.TFrame")
         content.pack(fill="both", expand=True)
@@ -3141,6 +3157,7 @@ class CustomiserApp(tk.Tk):
         self.refresh_status_labels()
         self.load_boot_sound_setting()
         self.load_custom_theme_text_setting()
+        self.load_top_bar_setting()
         self.load_layout_config()
         self.load_colours()
         self.load_text_overrides()
@@ -3219,6 +3236,7 @@ class CustomiserApp(tk.Tk):
         path = self.customiser_config_path()
         path.parent.mkdir(parents=True, exist_ok=True)
         boot_sound_enabled = 1 if self.boot_sound_var.get() else 0
+        top_bar_overlay_enabled = 1 if self.top_bar_mode_var.get() == "Separate image" else 0
         custom_theme_dark = 1 if self.custom_theme_text_var.get() == "White text" else 0
         thumb_border_enabled = 1 if self.thumbnail_border_var.get() else 0
         existing_values = self.existing_customiser_config_ints()
@@ -3241,6 +3259,7 @@ class CustomiserApp(tk.Tk):
             "#ifndef LAUNCHER_CUSTOMISER_CONFIG_H\n"
             "#define LAUNCHER_CUSTOMISER_CONFIG_H\n\n"
             f"#define LAUNCHER_BOOT_SOUND_ENABLED {boot_sound_enabled}\n"
+            f"#define LAUNCHER_TOP_BAR_OVERLAY_ENABLED {top_bar_overlay_enabled}\n"
             f"#define LAUNCHER_CUSTOM_THEME_DARK_STYLE {custom_theme_dark}\n\n"
             f"#define LAUNCHER_THUMB_BORDER_ENABLED {thumb_border_enabled}\n"
             f"#define LAUNCHER_VERT_SIDE_CUSTOM_ENABLED {1 if vert_custom else 0}\n"
@@ -3419,11 +3438,12 @@ class CustomiserApp(tk.Tk):
             path = self.asset_path(folder, filename)
             if path and path.exists():
                 image = Image.open(path).convert("RGB").resize((240, 160), Image.Resampling.NEAREST)
-            top_folder = self.preview_colour_folder(preview_name)
-            top_path = self.project_source / "images" / top_folder / f"{top_folder}.bmp"
-            if top_path.exists():
-                top = Image.open(top_path).convert("RGB").resize((240, 19), Image.Resampling.NEAREST)
-                image.paste(top, (0, 0))
+            if self.top_bar_overlay_enabled():
+                top_folder = self.preview_colour_folder(preview_name)
+                top_path = self.project_source / "images" / top_folder / f"{top_folder}.bmp"
+                if top_path.exists():
+                    top = Image.open(top_path).convert("RGB").resize((240, 19), Image.Resampling.NEAREST)
+                    image.paste(top, (0, 0))
         return image
 
     def draw_preview_text(self, draw, text, x, y, w, align, fill):
@@ -3668,6 +3688,31 @@ class CustomiserApp(tk.Tk):
         white_text = self.read_customiser_config_flag("LAUNCHER_CUSTOM_THEME_DARK_STYLE", False)
         self.custom_theme_text_var.set("White text" if white_text else "Black text")
 
+    def top_bar_overlay_enabled(self):
+        return self.top_bar_mode_var.get() == "Separate image"
+
+    def update_top_bar_mode_info(self):
+        if not hasattr(self, "image_info_label"):
+            return
+        if self.top_bar_overlay_enabled():
+            text = (
+                "Top bars are placed over the light or dark backgrounds, obscuring the top 19 pixels "
+                "of each image. PNG, BMP, and JPG accepted."
+            )
+        else:
+            text = (
+                "Screen backgrounds remain visible across the full 240 x 160 display; their upper "
+                "19 pixels form the top area. Separate top bar images are ignored. PNG, BMP, and JPG accepted."
+            )
+        self.image_info_label.configure(text=text)
+
+    def load_top_bar_setting(self):
+        if not self.project_source or not hasattr(self, "top_bar_mode_var"):
+            return
+        enabled = self.read_customiser_config_flag("LAUNCHER_TOP_BAR_OVERLAY_ENABLED", True)
+        self.top_bar_mode_var.set("Separate image" if enabled else "Use screen background")
+        self.update_top_bar_mode_info()
+
     def save_boot_sound_setting(self):
         self.write_customiser_config()
         self.status_var.set("Boot sound setting saved. Rebuild to apply it.")
@@ -3675,6 +3720,18 @@ class CustomiserApp(tk.Tk):
     def save_custom_theme_text_setting(self):
         self.write_customiser_config()
         self.status_var.set("Custom theme text style saved. Rebuild to apply it.")
+
+    def save_top_bar_setting(self):
+        if not self.require_project():
+            return
+        self.write_customiser_config()
+        self.update_top_bar_mode_info()
+        self.refresh_all_layout_previews()
+        if self.top_bar_overlay_enabled():
+            message = "Separate top bar images enabled. Rebuild to apply it."
+        else:
+            message = "Screen backgrounds will provide the top area. Rebuild to apply it."
+        self.status_var.set(message)
 
     def c_string_escape(self, value):
         return value.replace("\\", "\\\\").replace("\"", "\\\"")
