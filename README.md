@@ -8,6 +8,8 @@ It provides visual tools for editing themes, colours, images, sounds, interface 
 
 Visit the [DS Style homepage](https://frankiet19.github.io/omega-de-ds-style-kernel/project/) for an overview, kernel downloads, tools and example themes.
 
+The [DS Style Manager (Beta)](https://frankiet19.github.io/omega-de-ds-style-kernel/manager/) provides complementary browser-based SD-card, artwork, style and project tools while the web workflow is developed.
+
 ## Features
 
 - Project-based workflow that preserves the original source templates
