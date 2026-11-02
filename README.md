@@ -52,7 +52,7 @@ DS Style Source Original Omega/
 Templates/
 ```
 
-These folders are distributed with the normal DS Style Customiser release and are deliberately not duplicated in this source-only repository.
+These folders are included with the normal release so projects build against the matching DS Style kernel source. Download the release package to use the supplied source templates.
 
 ## Building The Executable
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.2
+
+- Updated both bundled kernel sources for DS Style v7.5, including animated carousels, side-size options, browser wrapping and defensive file checks.
+- Preserved non-destructive project importing, cross-cartridge conversion and the existing artwork layout.
+- Aligned the Settings font preview with the current Interface menu.
+
 ## v2.1
 
 - Added native bitmap launcher font selection with an accurate project Settings-screen preview.

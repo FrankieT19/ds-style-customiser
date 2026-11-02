@@ -26,8 +26,8 @@ from ds_style_font_presets import (
 
 
 APP_NAME = "DS Style Customiser"
-CUSTOMISER_VERSION = "2.1"
-DS_STYLE_VERSION = "7.4"
+CUSTOMISER_VERSION = "2.2"
+DS_STYLE_VERSION = "7.5"
 PROJECT_SCHEMA_VERSION = 2
 MODEL_DE = "omega_de"
 MODEL_ORIGINAL = "original_omega"
@@ -144,6 +144,7 @@ TEXT_SECTIONS = [
         ("DSTEXT_SETTINGS_HIDE_SYSTEM", "Hide system"),
         ("DSTEXT_SETTINGS_LIST_FOLDERS", "List folders"),
         ("DSTEXT_SETTINGS_CLEAN_LIST", "Clean list"),
+        ("DSTEXT_SETTINGS_WRAP_AROUND", "Wrap list"),
         ("DSTEXT_SETTINGS_BOOT_TO", "Boot to"),
         ("DSTEXT_SETTINGS_BOOT_ENGINE", "Boot engine"),
         ("DSTEXT_SETTINGS_AUTO_SAVE", "Auto save"),
@@ -2932,8 +2933,8 @@ class CustomiserApp(tk.Tk):
             ("Hide system", "On"),
             ("List folders", "Off"),
             ("Clean list", "Off"),
+            ("Wrap list", "Off"),
             ("Theme", self.font_preview_theme_var.get()),
-            ("Colour", self.font_preview_colour_var.get()),
         )
         selected_row = 3
         for index, (label, value) in enumerate(rows):
@@ -4391,6 +4392,7 @@ class CustomiserApp(tk.Tk):
             "DSTEXT_SETTINGS_HIDE_SYSTEM": "\u9690\u85cf\u7cfb\u7edf",
             "DSTEXT_SETTINGS_LIST_FOLDERS": "\u6587\u4ef6\u5939\u5217\u8868",
             "DSTEXT_SETTINGS_CLEAN_LIST": "\u6e05\u723d\u5217\u8868",
+            "DSTEXT_SETTINGS_WRAP_AROUND": "\u5faa\u73af\u5217\u8868",
             "DSTEXT_SETTINGS_BOOT_TO": "\u542f\u52a8\u5230",
             "DSTEXT_BOOT_TO_START": "\u5f00\u59cb",
             "DSTEXT_BOOT_TO_SD": "SD",
