@@ -1,10 +1,12 @@
 # Changelog
 
-## v2.2
+## v2.3
 
-- Updated both bundled kernel sources for DS Style v7.5, including animated carousels, side-size options, browser wrapping and defensive file checks.
+- Updated both bundled kernel sources for DS Style v8.0, including animated carousels, side-size options, browser wrapping and defensive file checks.
 - Preserved non-destructive project importing, cross-cartridge conversion and the existing artwork layout.
 - Aligned the Settings font preview with the current Interface menu.
+- Updated source templates for the v8 Start screen, menu sounds, contextual View options, Auto theme, loading indicator and safer file handling.
+- Regenerate and verify the compressed splash whenever its image is rebuilt, including imported projects.
 
 ## v2.1
 
@@ -42,7 +44,7 @@
 
 - Improved scaling and window sizing on high-resolution displays and smaller desktops.
 
-## v1.6
+## v1.7
 
 - Added customisation for supported interface-element positions.
 - Added visual layout editors and previews for supported launcher screens.

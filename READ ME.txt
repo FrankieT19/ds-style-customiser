@@ -1,8 +1,8 @@
 [INTRO]
 
-Thank you for downloading DS Style Customiser v2.2.
+Thank you for downloading DS Style Customiser v2.3.
 
-For DS Style v7.5.
+For DS Style v8.0.
 
 DS Style Customiser lets you create a personalised DS Style kernel while keeping the original source untouched.
 

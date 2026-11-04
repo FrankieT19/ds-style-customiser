@@ -26,8 +26,8 @@ from ds_style_font_presets import (
 
 
 APP_NAME = "DS Style Customiser"
-CUSTOMISER_VERSION = "2.2"
-DS_STYLE_VERSION = "7.5"
+CUSTOMISER_VERSION = "2.3"
+DS_STYLE_VERSION = "8.0"
 PROJECT_SCHEMA_VERSION = 2
 MODEL_DE = "omega_de"
 MODEL_ORIGINAL = "original_omega"
@@ -2930,11 +2930,11 @@ class CustomiserApp(tk.Tk):
             ("Clock format", "24 hour"),
             ("Language", "T\u00fcrk\u00e7e"),
             ("Sounds", "A\u00e7\u0131k"),
-            ("Hide system", "On"),
-            ("List folders", "Off"),
-            ("Clean list", "Off"),
-            ("Wrap list", "Off"),
             ("Theme", self.font_preview_theme_var.get()),
+            ("Colour", "Pale Blue"),
+            ("Load style", ">"),
+            ("View mode", "Horizontal"),
+            ("View options", ">"),
         )
         selected_row = 3
         for index, (label, value) in enumerate(rows):
