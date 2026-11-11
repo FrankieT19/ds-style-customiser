@@ -16,6 +16,7 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import colorchooser, filedialog, messagebox, simpledialog, ttk
 from PIL import Image, ImageDraw, ImageFont, ImageTk
+from ds_style_boot_entry import patch_rom
 from ds_style_font_presets import (
     EXTENDED_LATIN_CODEPOINTS,
     EXTENDED_LATIN_INDEX_BY_CODEPOINT,
@@ -26,8 +27,8 @@ from ds_style_font_presets import (
 
 
 APP_NAME = "DS Style Customiser"
-CUSTOMISER_VERSION = "2.3"
-DS_STYLE_VERSION = "8.0"
+CUSTOMISER_VERSION = "2.4"
+DS_STYLE_VERSION = "8.1"
 PROJECT_SCHEMA_VERSION = 2
 MODEL_DE = "omega_de"
 MODEL_ORIGINAL = "original_omega"
@@ -5336,7 +5337,7 @@ class CustomiserApp(tk.Tk):
                 "$env:DEVKITARM='/c/devkitPro/devkitARM'; "
                 "$env:DEVKITPRO='/c/devkitPro'; "
                 "$env:LIBGBA='/c/devkitPro/libgba'; "
-                "Set-Location X:\\; make clean; make; "
+                "Set-Location X:\\; make clean; if ($LASTEXITCODE -eq 0) { make DS_STYLE_RAW=1 }; "
                 "$code=$LASTEXITCODE; "
                 "& 'C:\\Windows\\System32\\subst.exe' X: /D; "
                 "exit $code"
@@ -5347,6 +5348,10 @@ class CustomiserApp(tk.Tk):
             built = self.project_source / "x.gba"
             if not built.exists():
                 raise RuntimeError("Build finished, but x.gba was not produced.")
+            boot_entry = self.project_source / "boot-entry.s"
+            if boot_entry.is_file():
+                self.log("Installing the game-return boot hook...")
+                patch_rom(built, boot_entry, Path("C:/devkitPro/devkitARM/bin"))
             if self.selected_model_key() == MODEL_ORIGINAL and built.stat().st_size > 0x200000:
                 raise RuntimeError(
                     "The Original Omega kernel exceeds its 2 MB limit. Edit an existing colour slot "

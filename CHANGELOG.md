@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.4
+
+- Updated both bundled sources to DS Style v8.1 and added the game-return boot hook to Customiser builds.
+
 ## v2.3
 
 - Updated both bundled kernel sources for DS Style v8.0, including animated carousels, side-size options, browser wrapping and defensive file checks.
