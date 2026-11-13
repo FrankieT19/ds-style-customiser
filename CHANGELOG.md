@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.5
+
+- Updated for DS Style v8.2 and refreshed the user guide.
+
 ## v2.4
 
 - Updated both bundled sources to DS Style v8.1 and added the game-return boot hook to Customiser builds.

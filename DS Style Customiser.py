@@ -27,8 +27,8 @@ from ds_style_font_presets import (
 
 
 APP_NAME = "DS Style Customiser"
-CUSTOMISER_VERSION = "2.4"
-DS_STYLE_VERSION = "8.1"
+CUSTOMISER_VERSION = "2.5"
+DS_STYLE_VERSION = "8.2"
 PROJECT_SCHEMA_VERSION = 2
 MODEL_DE = "omega_de"
 MODEL_ORIGINAL = "original_omega"
